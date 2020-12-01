@@ -15,3 +15,5 @@ I've since discovered React's potential, and wanted to further explore its power
 *Placeholder section, no running scripts have been set up yet.*
 
 Simply clone the repository, run `npm install` in the root directory, and `npm run dev`.
+
+I've made a concerted effort to modularize as many components as possible, and whilst developing, I will attempt to create functional components as often as I can and lift state up as far as is practical.

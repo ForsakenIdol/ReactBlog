@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Intro from 'Intro/Intro.js';
+import Intro from './Intro/Intro';
 
 ReactDOM.render(
     <Intro />,
