@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Intro from './Intro/Intro';
+
+import BlogHome from './BlogHome/BlogHome';
 
 ReactDOM.render(
-    <Intro />,
+    <BlogHome />,
     document.getElementById('root')
 );
