@@ -1,0 +1,1 @@
+// This box contains the all posts title, and a list of PostBox objects, each of which corresponds to a blog post.

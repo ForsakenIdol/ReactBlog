@@ -1,3 +1,5 @@
+// The title of the blog.
+
 function TitleCard() {
     return (
         <div className="title-card">
