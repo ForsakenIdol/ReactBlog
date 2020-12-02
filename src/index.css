@@ -30,6 +30,10 @@ div.featured-box {
     margin-bottom: 5rem;
 }
 
+div.post-card {
+    margin-bottom: 5rem;    
+}
+
 /* Headers */
 
 div.title-card h1 {
