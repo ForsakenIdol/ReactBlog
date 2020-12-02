@@ -1,13 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Sahitya:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;1,400&display=swap');
 
+div.blog-home {
+    font-family: 'Sahitya', serif;
+}
+
 /* TitleCard */
 
 div.title-card {
-    font-family: 'Sahitya', serif;
     text-align: center;
-    padding-top: 10rem;
+    padding: 7rem 0;
 }
+
+div.title-card em {
+    font-size: 1.5rem;
+}
+
+div.feature-card {
+    padding: 1rem 0.5rem 0rem;
+    border: 2px solid black;
+    margin-top: 1rem;
+}
+
+div.featured-box {
+    margin-bottom: 5rem;
+}
+
+/* Headers */
 
 div.title-card h1 {
     text-transform: uppercase;
@@ -16,8 +35,10 @@ div.title-card h1 {
     margin-bottom: 1rem;
 }
 
-div.title-card em {
-    font-size: 1.5rem;
+h2.section-header {
+    text-transform: uppercase;
+    font-weight: normal;
+    margin-bottom: 2rem;
 }
 
 /* Lists */
@@ -62,4 +83,10 @@ a.register {
   
   a.register:hover {
     color: grey;
+  }
+
+  img.feature-image {
+      max-width:90%;
+      max-height:90%;
+      border-radius: 0.5rem;
   }
