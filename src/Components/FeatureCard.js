@@ -24,7 +24,7 @@ class FeatureCard extends React.Component {
 
                 </div>
                 <div className="col-3"> {/* Image */}
-                    <img src={this.state.image} alt="green placeholder" class="feature-image" />
+                    <img src={this.state.image} alt="placeholder" class="feature-image" />
                 </div>
             </div>
         );

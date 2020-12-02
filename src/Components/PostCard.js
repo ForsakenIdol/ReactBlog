@@ -6,12 +6,19 @@ import React from 'react';
 class PostCard extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            title: this.props.title,
+            description: this.props.description,
+            image: this.props.image
+        }
     }
 
     render() {
         return (
             <div className="post-card col-4">
-                <p>Test Box 1</p>
+                <img src={this.state.image} alt="placeholder" class="post-image" />
+                <h3 className="post-title">{this.state.title}</h3>
+                <p>{this.state.description}</p>
             </div>
         );
     }
