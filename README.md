@@ -12,8 +12,6 @@ I've since discovered React's potential, and wanted to further explore its power
 
 ## Development
 
-*Placeholder section, no running scripts have been set up yet.*
-
-Simply clone the repository, run `npm install` in the root directory, and `npm run dev`.
+Simply clone the repository, run `npm install` in the root directory, and follow the relevant instructions in the `create-react-app.md` file.
 
 I've made a concerted effort to modularize as many components as possible, and whilst developing, I will attempt to create functional components as often as I can and lift state up as far as makes sense and is practical.
