@@ -1,6 +1,3 @@
-import './BlogHome.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap';
 import React from 'react';
 
 import TitleCard from '../Components/TitleCard';
