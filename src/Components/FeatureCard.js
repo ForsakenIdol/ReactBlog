@@ -15,17 +15,11 @@ class FeatureCard extends React.Component {
 
     render() {
         return (
-            <div className="feature-card row">
-                <div className="col-8"> {/* Title and description */}
-                    <h3 className="post-title">{this.state.title}</h3>
-                    <p>{this.state.description}</p>
-                </div>
-                <div className="col-1">
-
-                </div>
-                <div className="col-3"> {/* Image */}
-                    <img src={this.state.image} alt="placeholder" class="feature-image" />
-                </div>
+            <div className="jumbotron feature-card"
+                style={{background: `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url(${this.state.image})`,
+                        backgroundPosition: "center center"}}>
+                <h3>{this.state.title}</h3>
+                <p className="lead">{this.state.description}</p>
             </div>
         );
     }

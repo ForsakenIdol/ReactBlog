@@ -21,9 +21,8 @@ div.title-card em {
 }
 
 div.feature-card {
-    padding: 1rem 0.5rem 0rem;
+    background: white;
     border: 2px solid black;
-    margin-top: 1rem;
 }
 
 div.featured-box {
@@ -49,6 +48,11 @@ h2.section-header {
     text-transform: uppercase;
     font-weight: normal;
     margin-bottom: 2rem;
+}
+
+div.feature-card h3 {
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 div.post-card h3 {
