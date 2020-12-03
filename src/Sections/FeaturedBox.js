@@ -4,6 +4,17 @@ import React from 'react';
 import FeatureCard from '../Components/FeatureCard';
 
 class FeaturedBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            titles: ["A sample card", "The second sample"],
+            descriptions: [
+            "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
+            "This is another paragraph element. It is significantly shorter than the previous one."
+            ],
+            images: ["wideimg1.jpg", "squareimg2.png"]
+        }
+    }
 
     renderFeatured(titles, descriptions, images) {
         if (!(titles.length === descriptions.length === images.length)) console.log("We don't have the same number of titles, descriptions, and images!");
@@ -18,18 +29,12 @@ class FeaturedBox extends React.Component {
     }
 
     render() {
-        let titles = ["A sample card", "The second sample"]
-        let descriptions = [
-            "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
-            "This is another paragraph element. It is significantly shorter than the previous one."
-        ]
-        let images = ["wideimg1.jpg", "squareimg2.png"]
         return (
         <div className="featured-box row">
             <div className="col-2" />
             <div className="col-8">
                 <h2 className="section-header" >Featured Posts</h2>
-                {this.renderFeatured(titles, descriptions, images)}
+                {this.renderFeatured(this.state.titles, this.state.descriptions, this.state.images)}
             </div>
         </div>
         );
