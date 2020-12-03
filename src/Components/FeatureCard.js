@@ -3,7 +3,7 @@
 
 function FeatureCard(props) {
     return (
-        <button className="jumbotron feature-card" onClick={e => {e.preventDefault(); window.location.href = props.link}}
+        <button className="jumbotron feature-card" onClick={e => {e.preventDefault(); window.location.href = props.link ? props.link : "#"}}
             style={{background: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${props.image})`,
                     backgroundPosition: "center center"}}>
             <h3>{props.title}</h3>
