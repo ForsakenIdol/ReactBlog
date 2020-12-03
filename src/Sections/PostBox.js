@@ -8,7 +8,7 @@ class PostBox extends React.Component {
         super(props);
         this.state = {
             titles: ["A Normal Post", "Yet Another Post", "What's this? Another post!"],
-            descriptions: ["This describes a post in the normal blog previous format. Let's see how long we can make this before it breaks the preview! It may have to be very long, or on the other hand, the box may not take very much to break at all.",
+            descriptions: ["This describes a post in the normal blog previous format. Let's see how long we can make this before it breaks the preview! It may have to be very long, or on the other hand, the box may not take very much to break at all. From what I can see, the description renders fine on a computer, but it looks absolutely horrendous on a phone screen.",
                             "Here's another blog description, except this one's a lot shorter than the one above.",
                             "Oh there's another post as well! Let's see what this one's about. This has a description with a length roughly in between the first and the second one."
             ],
@@ -20,6 +20,7 @@ class PostBox extends React.Component {
     renderPosts(titles, descriptions, images, postsPerLine) {
         if (![1, 2, 3, 4, 6, 12].includes(postsPerLine)) console.log("Posts per line is an awkward number! Attempting anyway...");
         if (!(titles.length === descriptions.length === images.length)) console.log("We don't have the same number of titles, descriptions, and images!");
+        if (titles.length == 0 || descriptions.length == 0) return (<p>No posts yet!</p>);
         let cards = [];
         let elements = []
         for (let i = 0; i < titles.length; i++) {

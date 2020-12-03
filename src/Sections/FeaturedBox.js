@@ -18,6 +18,7 @@ class FeaturedBox extends React.Component {
 
     renderFeatured(titles, descriptions, images) {
         if (!(titles.length === descriptions.length === images.length)) console.log("We don't have the same number of titles, descriptions, and images!");
+        if (titles.length == 0 || descriptions.length == 0) return (<p>No featured posts yet!</p>);
         let cards = [];
         for (let i = 0; i < titles.length; i++) {
             if (images[i].includes('/')) console.log(`Image ${images[i]} contains a backslash '/'. This may be the reason why the image is not displaying. Include only the name of the image or its path starting from the public folder.`);
@@ -33,7 +34,7 @@ class FeaturedBox extends React.Component {
         <div className="featured-box row">
             <div className="col-2" />
             <div className="col-8">
-                <h2 className="section-header" >Featured Posts</h2>
+                <h2 className="section-header">Featured Posts</h2>
                 {this.renderFeatured(this.state.titles, this.state.descriptions, this.state.images)}
             </div>
         </div>
