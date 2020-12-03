@@ -9,8 +9,7 @@ class FeaturedBox extends React.Component {
         if (!(titles.length === descriptions.length === images.length)) console.log("We don't have the same number of titles, descriptions, and images!");
         let cards = [];
         for (let i = 0; i < titles.length; i++) {
-            if (images[i].includes('/')) console.log(`Image ${images[i]} contains a backslash '/'.\
-            This may be the reason why the image is not displaying. Include only the name of the image or its path starting from the public folder.`);
+            if (images[i].includes('/')) console.log(`Image ${images[i]} contains a backslash '/'. This may be the reason why the image is not displaying. Include only the name of the image or its path starting from the public folder.`);
             cards.push(
                 <FeatureCard title={titles[i]} description={descriptions[i]} image={process.env.PUBLIC_URL + '/' + images[i]}/>
             );
