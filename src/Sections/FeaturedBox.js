@@ -6,7 +6,7 @@ import FeatureCard from '../Components/FeatureCard';
 class FeaturedBox extends React.Component {
 
     renderFeatured(titles, descriptions, images) {
-        if (!(titles.length == descriptions.length == images.length)) console.log("We don't have the same number of titles, descriptions, and images!");
+        if (!(titles.length === descriptions.length === images.length)) console.log("We don't have the same number of titles, descriptions, and images!");
         let cards = [];
         for (let i = 0; i < titles.length; i++) {
             cards.push(
