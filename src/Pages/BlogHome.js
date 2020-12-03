@@ -15,7 +15,7 @@ class BlogHome extends React.Component {
     render() {
         return (
             <div class="blog-home">
-                <Navbar logged_in={true} />
+                <Navbar logged_in={false} />
                 <TitleCard />
                 <FeaturedBox />
                 <PostBox />
