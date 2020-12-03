@@ -1,4 +1,7 @@
-/* Our server will be responsible for providing a wrapper for the MySQL package. We'll wrap it in Express and serve some routes for our application. */
+/*
+ * Our server will be responsible for providing a wrapper for the MySQL package.
+ * We'll wrap it in Express and serve some routes for our application.
+ */
 
 const mysql = require('mysql');
 const dotenv = require('dotenv');
