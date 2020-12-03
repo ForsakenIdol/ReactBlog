@@ -7,7 +7,7 @@ class FeaturedBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            titles: ["A sample card", "The second sample"],
+            titles: ["A Sample Card", "Another Sample"],
             descriptions: [
             "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
             "This is another paragraph element. It is significantly shorter than the previous one."
