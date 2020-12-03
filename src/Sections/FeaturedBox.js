@@ -12,18 +12,23 @@ class FeaturedBox extends React.Component {
             "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
             "This is another paragraph element. It is significantly shorter than the previous one."
             ],
-            images: ["wideimg1.jpg", "squareimg2.png"]
+            images: ["wideimg1.jpg", "squareimg2.png"],
+            links: ["https://www.google.com.au/", "http://localhost:3000/"]
         }
     }
 
-    renderFeatured(titles, descriptions, images) {
-        if (!(titles.length === descriptions.length === images.length)) console.log("We don't have the same number of titles, descriptions, and images!");
+    renderFeatured(titles, descriptions, images, links) {
+        if (!(titles.length === descriptions.length === images.length === links.length)) console.log("We don't have the same number of titles, descriptions, images, and links!");
         if (titles.length == 0 || descriptions.length == 0) return (<p>No featured posts yet!</p>);
         let cards = [];
         for (let i = 0; i < titles.length; i++) {
             if (images[i].includes('/')) console.log(`Image ${images[i]} contains a backslash '/'. This may be the reason why the image is not displaying. Include only the name of the image or its path starting from the public folder.`);
             cards.push(
-                <FeatureCard title={titles[i]} description={descriptions[i]} image={process.env.PUBLIC_URL + '/' + images[i]}/>
+                <FeatureCard
+                title={titles[i] ? titles[i] : "undefined"}
+                description={descriptions[i] ? descriptions[i] : "undefined"}
+                image={images[i] ? process.env.PUBLIC_URL + '/' + images[i] : ""}
+                link={links[i] ? links[i] : ""}/>
             );
         }
         return cards;
@@ -35,7 +40,7 @@ class FeaturedBox extends React.Component {
             <div className="col-2" />
             <div className="col-8">
                 <h2 className="section-header">Featured Posts</h2>
-                {this.renderFeatured(this.state.titles, this.state.descriptions, this.state.images)}
+                {this.renderFeatured(this.state.titles, this.state.descriptions, this.state.images, this.state.links)}
             </div>
         </div>
         );
