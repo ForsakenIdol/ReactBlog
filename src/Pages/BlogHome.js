@@ -8,8 +8,9 @@ import PostBox from '../Sections/PostBox';
 // The constructor can later initialize this component with state regarding the blog post information.
 // For now, we'll hardcode everything.
 class BlogHome extends React.Component {
-    constructor(props) {
-        super(props);
+    // Setting state in componentDidMount will trigger a re-render, just like it did for my weather app.
+    componentDidMount() {
+        
     }
 
     render() {
