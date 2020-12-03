@@ -18,13 +18,12 @@ class FeaturedBox extends React.Component {
     }
 
     renderFeatured(titles, descriptions, images, links) {
-        if (!(titles.length === descriptions.length === images.length === links.length)) console.log("We don't have the same number of titles, descriptions, images, and links!");
-        if (titles.length == 0 || descriptions.length == 0) return (<p>No featured posts yet!</p>);
+       if (titles.length == 0 || descriptions.length == 0) return (<p>No featured posts yet!</p>);
         let cards = [];
         for (let i = 0; i < titles.length; i++) {
             if (images[i].includes('/')) console.log(`Image ${images[i]} contains a backslash '/'. This may be the reason why the image is not displaying. Include only the name of the image or its path starting from the public folder.`);
             cards.push(
-                <FeatureCard
+                <FeatureCard key={i}
                 title={titles[i] ? titles[i] : "undefined"}
                 description={descriptions[i] ? descriptions[i] : "undefined"}
                 image={images[i] ? process.env.PUBLIC_URL + '/' + images[i] : ""}
