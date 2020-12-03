@@ -4,7 +4,7 @@ class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      logged_in: this.props.logged_in
+      logged_in: typeof this.props.logged_in !== 'undefined' ? this.props.logged_in : false
     }
   }
 
