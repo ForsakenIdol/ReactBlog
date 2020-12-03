@@ -13,8 +13,9 @@ class BlogHome extends React.Component {
     }
 
     render() {
+        console.log("Loading blog home!");
         return (
-            <div class="blog-home">
+            <div className="blog-home">
                 <Navbar logged_in={false} />
                 <TitleCard />
                 <FeaturedBox />
