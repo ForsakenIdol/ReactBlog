@@ -16,7 +16,7 @@ class FeatureCard extends React.Component {
     render() {
         return (
             <div className="jumbotron feature-card"
-                style={{background: `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url(${this.state.image})`,
+                style={{background: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${this.state.image})`,
                         backgroundPosition: "center center"}}>
                 <h3>{this.state.title}</h3>
                 <p className="lead">{this.state.description}</p>

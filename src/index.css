@@ -35,6 +35,10 @@ div.post-card {
     margin-bottom: 5rem;   
 }
 
+div.feature-card {
+    color: white;
+}
+
 /* Headers */
 
 div.title-card h1 {
