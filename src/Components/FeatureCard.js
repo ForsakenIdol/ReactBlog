@@ -19,7 +19,7 @@ class FeatureCard extends React.Component {
                 style={{background: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${this.state.image})`,
                         backgroundPosition: "center center"}}>
                 <h3>{this.state.title}</h3>
-                <p className="lead">{this.state.description}</p>
+                <p>{this.state.description}</p>
             </div>
         );
     }
