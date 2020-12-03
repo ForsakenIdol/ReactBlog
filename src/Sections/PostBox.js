@@ -7,9 +7,13 @@ class PostBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            titles: ["A Normal Post", "Yet Another Post"],
-            descriptions: ["This describes a post in the normal blog previous format. Let's see how long we can make this before it breaks the preview! It may have to be very long, or on the other hand, the box may not take very much to break at all.", "Here's another blog description, except this one's a lot shorter than the one above."],
-            images: ["squareimg1.png", "squareimg2.png"]
+            titles: ["A Normal Post", "Yet Another Post", "What's this? Another post!"],
+            descriptions: ["This describes a post in the normal blog previous format. Let's see how long we can make this before it breaks the preview! It may have to be very long, or on the other hand, the box may not take very much to break at all.",
+                            "Here's another blog description, except this one's a lot shorter than the one above.",
+                            "Oh there's another post as well! Let's see what this one's about. This has a description with a length roughly in between the first and the second one."
+            ],
+            images: ["squareimg1.png", "squareimg2.png", "wideimg1.jpg"],
+            postsPerLine: 2
         }
     }
 
@@ -36,7 +40,7 @@ class PostBox extends React.Component {
         return (
             <div className="post-box container">
                 <h2 className="section-header">All Posts</h2>
-                {this.renderPosts(this.state.titles, this.state.descriptions, this.state.images, 3)}
+                {this.renderPosts(this.state.titles, this.state.descriptions, this.state.images, this.state.postsPerLine)}
             </div>
         );
     }
