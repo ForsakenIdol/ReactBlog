@@ -7,7 +7,7 @@ const express = require('express');
 
 const app = express();
 
-dotenv.config({ path: path.resolve(__dirname + "/private/config.env") }); // Load environmental variables
+dotenv.config({ path: path.resolve(__dirname + "/src/private/config.env") }); // Load environmental variables
 
 // Create the connection to our MySQL database
 const db = mysql.createConnection({
