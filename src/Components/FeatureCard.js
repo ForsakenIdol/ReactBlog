@@ -9,7 +9,8 @@ class FeatureCard extends React.Component {
         this.state = {
             title: this.props.title,
             description: this.props.description,
-            image: this.props.image
+            image: this.props.image,
+            link: this.props.link ? this.props.link : ""
         }
     }
 

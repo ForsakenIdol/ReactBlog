@@ -22,7 +22,6 @@ div.title-card em {
 
 div.feature-card {
     background: white;
-    border: 2px solid black;
 }
 
 div.featured-box {
@@ -39,6 +38,16 @@ div.feature-card {
     color: white;
     height: 13.5rem;
     padding-top: 3rem;
+    transition: 250ms;
+}
+
+div.feature-card:hover {
+    height: 15rem;
+    font-size: 2rem;
+}
+
+div.feature-card:hover > h3 { /* h3's animation when its parent div is hovered over */
+    font-size: 2rem;
 }
 
 /* Headers */
@@ -59,6 +68,7 @@ h2.section-header {
 div.feature-card h3 {
     font-weight: 700;
     text-transform: uppercase;
+    transition: 250ms;
 }
 
 div.post-card h3 {
