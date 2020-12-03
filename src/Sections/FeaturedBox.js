@@ -5,16 +5,30 @@ import FeatureCard from '../Components/FeatureCard';
 
 class FeaturedBox extends React.Component {
 
+    renderFeatured(titles, descriptions, images) {
+        if (!(titles.length == descriptions.length == images.length)) console.log("We don't have the same number of titles, descriptions, and images!");
+        let cards = [];
+        for (let i = 0; i < titles.length; i++) {
+            cards.push(
+                <FeatureCard title={titles[i]} description={descriptions[i]} image={process.env.PUBLIC_URL + '/' + images[i]}/>
+            );
+        }
+        return cards;
+    }
+
     render() {
-        let desc1 = "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.";
-        let desc2 = "This is another paragraph element. It is significantly shorter than the previous one.";
+        let titles = ["A sample card", "The second sample"]
+        let descriptions = [
+            "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
+            "This is another paragraph element. It is significantly shorter than the previous one."
+        ]
+        let images = ["wideimg1.jpg", "squareimg2.png"]
         return (
         <div className="featured-box row">
             <div className="col-2" />
             <div className="col-8">
                 <h2 className="section-header" >Featured Posts</h2>
-                <FeatureCard title="A sample card" description={desc1} image={process.env.PUBLIC_URL + '/wideimg1.jpg'}/>
-                <FeatureCard title="Another sample" description={desc2} image={process.env.PUBLIC_URL + '/squareimg2.png'}/>
+                {this.renderFeatured(titles, descriptions, images)}
             </div>
         </div>
         );
