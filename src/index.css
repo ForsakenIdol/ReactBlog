@@ -20,10 +20,6 @@ div.title-card em {
     font-size: 1.5rem;
 }
 
-div.feature-card {
-    background: white;
-}
-
 div.featured-box {
     margin-bottom: 5rem;
 }
@@ -34,20 +30,16 @@ div.post-card {
     margin-bottom: 5rem;   
 }
 
-div.feature-card {
+.feature-card {
+    color: #aaa;
+    width: 100%;
+    text-align: left;
+    transition: 150ms;
+    overflow: visible;
+}
+
+.feature-card:hover {
     color: white;
-    height: 13.5rem;
-    padding-top: 3rem;
-    transition: 250ms;
-}
-
-div.feature-card:hover {
-    height: 15rem;
-    font-size: 2rem;
-}
-
-div.feature-card:hover > h3 { /* h3's animation when its parent div is hovered over */
-    font-size: 2rem;
 }
 
 /* Headers */
@@ -65,7 +57,7 @@ h2.section-header {
     margin-bottom: 2rem;
 }
 
-div.feature-card h3 {
+.feature-card h3 {
     font-weight: 700;
     text-transform: uppercase;
     transition: 250ms;
@@ -132,6 +124,6 @@ img.post-image {
 }
 
 
-div.feature-card p {
+.feature-card p {
     font-size: 1.1rem;
 }
