@@ -30,7 +30,7 @@ function PostCard(props) {
         <div className={className}>
             <img src={props.image} alt="placeholder" className="post-image" />
             <h3 className="post-title">{props.title}</h3>
-            <p>{props.description}</p>
+            <p>{props.subtitle}</p>
         </div>
     );
 }

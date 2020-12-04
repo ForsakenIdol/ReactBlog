@@ -18,28 +18,28 @@ class BlogHome extends React.Component {
             return response.json();
         }).then(result => {
             console.log(result);
-            let titles = []; let descriptions = []; let images = []; let links = [];
-            let featuredTitles = []; let featuredDescriptions = [];
+            let titles = []; let subtitles = []; let images = []; let links = [];
+            let featuredTitles = []; let featuredSubtitles = [];
             let featuredImages = []; let featuredLinks = []
             for (let i = 0; i < result.length; i++) {
                 titles.push(result[i].title);
-                descriptions.push(result[i].description);
-                images.push(result[i].image);
+                subtitles.push(result[i].subtitle);
+                images.push(result[i].image_link);
                 links.push(result[i].link);
                 if (result[i].featured) {
                     featuredTitles.push(result[i].title);
-                    featuredDescriptions.push(result[i].description);
-                    featuredImages.push(result[i].image);
+                    featuredSubtitles.push(result[i].subtitle);
+                    featuredImages.push(result[i].image_link);
                     featuredLinks.push(result[i].link);
                 }
             }
             this.setState({
                 featuredTitles: featuredTitles,
-                featuredDescriptions: featuredDescriptions,
+                featuredSubtitles: featuredSubtitles,
                 featuredImages: featuredImages,
                 featuredLinks: featuredLinks,
                 titles: titles,
-                descriptions: descriptions,
+                subtitles: subtitles,
                 images: images,
                 links: links
             });
@@ -51,7 +51,7 @@ class BlogHome extends React.Component {
     componentDidMount() {
         console.log("Blog mounted!");
         // Here we'll fetch the data from our server, which will probably be on something like "localhost:8080", and set state using that data (this.setState()).
-        this.getBlogData("http://localhost:8080/api/testblogdata");
+        this.getBlogData("http://localhost:8080/api/blog/posts");
     }
 
     render() {
@@ -62,13 +62,13 @@ class BlogHome extends React.Component {
                 <TitleCard />
                 <FeaturedBox 
                     titles={this.state ? this.state.featuredTitles : []}
-                    descriptions={this.state ? this.state.featuredDescriptions : []}
+                    subtitles={this.state ? this.state.featuredSubtitles : []}
                     images={this.state ? this.state.featuredImages : []}
                     links={this.state ? this.state.featuredLinks : []}
                 />
                 <PostBox 
                     titles={this.state ? this.state.titles : []}
-                    descriptions={this.state ? this.state.descriptions : []}
+                    subtitles={this.state ? this.state.subtitles : []}
                     images={this.state ? this.state.images : []}
                     links={this.state ? this.state.links : []}
                 />

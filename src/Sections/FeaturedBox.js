@@ -5,16 +5,16 @@ import FeatureCard from '../Components/FeatureCard';
 
 class FeaturedBox extends React.Component {
 
-    renderFeatured(titles, descriptions, images, links) {
-       if (titles.length == 0 || descriptions.length == 0) return (<p>No featured posts yet!</p>);
+    renderFeatured(titles, subtitles, images, links) {
+       if (titles.length == 0 || subtitles.length == 0) return (<p>No featured posts yet!</p>);
         let cards = [];
         for (let i = 0; i < titles.length; i++) {
             if (images[i].includes('/')) console.log(`Image ${images[i]} contains a backslash '/'. This may be the reason why the image is not displaying. Include only the name of the image or its path starting from the public folder.`);
             cards.push(
                 <FeatureCard key={i}
                 title={titles[i] ? titles[i] : "undefined"}
-                description={descriptions[i] ? descriptions[i] : "undefined"}
-                image={images[i] ? process.env.PUBLIC_URL + '/' + images[i] : ""}
+                subtitle={subtitles[i] ? subtitles[i] : "undefined"}
+                image={images[i] ? images[i] : ""}
                 link={links[i] ? links[i] : ""}/>
             );
         }
@@ -27,7 +27,7 @@ class FeaturedBox extends React.Component {
             <div className="col-2" />
             <div className="col-8">
                 <h2 className="section-header">Featured Posts</h2>
-                {this.renderFeatured(this.props.titles, this.props.descriptions, this.props.images, this.props.links)}
+                {this.renderFeatured(this.props.titles, this.props.subtitles, this.props.images, this.props.links)}
             </div>
         </div>
         );

@@ -7,7 +7,7 @@ function FeatureCard(props) {
             style={{background: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${props.image})`,
                     backgroundPosition: "center center"}}>
             <h3>{props.title}</h3>
-            <p>{props.description}</p>
+            <p>{props.subtitle}</p>
         </button>
     );
 }
