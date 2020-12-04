@@ -37,7 +37,11 @@ class BlogHome extends React.Component {
                 featuredTitles: featuredTitles,
                 featuredDescriptions: featuredDescriptions,
                 featuredImages: featuredImages,
-                featuredLinks: featuredLinks
+                featuredLinks: featuredLinks,
+                titles: titles,
+                descriptions: descriptions,
+                images: images,
+                links: links
             });
             console.log("Fetched featured data!");  
         }).catch(error => {console.log("Error during fetch: " + error)});
@@ -62,7 +66,12 @@ class BlogHome extends React.Component {
                     images={this.state ? this.state.featuredImages : []}
                     links={this.state ? this.state.featuredLinks : []}
                 />
-                <PostBox />
+                <PostBox 
+                    titles={this.state ? this.state.titles : []}
+                    descriptions={this.state ? this.state.descriptions : []}
+                    images={this.state ? this.state.images : []}
+                    links={this.state ? this.state.links : []}
+                />
             </div>
         );
     }

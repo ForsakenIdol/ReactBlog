@@ -4,18 +4,6 @@ import React from 'react';
 import PostCard from '../Components/PostCard';
 
 class PostBox extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            titles: ["A Normal Post", "Yet Another Post", "Once Again, a Post!"],
-            descriptions: ["This describes a post in the normal blog previous format. Let's see how long we can make this before it breaks the preview! It may have to be very long, or on the other hand, the box may not take very much to break at all. From what I can see, the description renders fine on a computer, but it looks absolutely horrendous on a phone screen.",
-                            "Here's another blog description, except this one's a lot shorter than the one above.",
-                            "Oh there's another post as well! Let's see what this one's about. This has a description with a length roughly in between the first and the second one."
-            ],
-            images: ["squareimg1.png", "squareimg2.png", "wideimg1.jpg"],
-            postsPerLine: 2
-        }
-    }
 
     renderPosts(titles, descriptions, images, postsPerLine) {
         if (![1, 2, 3, 4, 6, 12].includes(postsPerLine)) console.log("Posts per line is an awkward number! Attempting anyway...");
@@ -41,7 +29,7 @@ class PostBox extends React.Component {
         return (
             <div className="post-box container">
                 <h2 className="section-header">All Posts</h2>
-                {this.renderPosts(this.state.titles, this.state.descriptions, this.state.images, this.state.postsPerLine)}
+                {this.renderPosts(this.props.titles, this.props.descriptions, this.props.images, this.props.postsPerLine)}
             </div>
         );
     }
