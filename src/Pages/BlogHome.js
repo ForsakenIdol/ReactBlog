@@ -9,7 +9,7 @@ import PostBox from '../Sections/PostBox';
 // For now, we'll hardcode everything.
 class BlogHome extends React.Component {
 
-    getFeaturedData(address) {
+    getBlogData(address) {
         fetch(address).then(response => {
             if (!response.ok) {
                 console.log(response);
@@ -18,11 +18,26 @@ class BlogHome extends React.Component {
             return response.json();
         }).then(result => {
             console.log(result);
+            let titles = []; let descriptions = []; let images = []; let links = [];
+            let featuredTitles = []; let featuredDescriptions = [];
+            let featuredImages = []; let featuredLinks = []
+            for (let i = 0; i < result.length; i++) {
+                titles.push(result[i].title);
+                descriptions.push(result[i].description);
+                images.push(result[i].image);
+                links.push(result[i].link);
+                if (result[i].featured) {
+                    featuredTitles.push(result[i].title);
+                    featuredDescriptions.push(result[i].description);
+                    featuredImages.push(result[i].image);
+                    featuredLinks.push(result[i].link);
+                }
+            }
             this.setState({
-                featuredTitles: result.titles,
-                featuredDescriptions: result.descriptions,
-                featuredImages: result.images,
-                featuredLinks: result.links
+                featuredTitles: featuredTitles,
+                featuredDescriptions: featuredDescriptions,
+                featuredImages: featuredImages,
+                featuredLinks: featuredLinks
             });
             console.log("Fetched featured data!");  
         }).catch(error => {console.log("Error during fetch: " + error)});
@@ -32,7 +47,7 @@ class BlogHome extends React.Component {
     componentDidMount() {
         console.log("Blog mounted!");
         // Here we'll fetch the data from our server, which will probably be on something like "localhost:8080", and set state using that data (this.setState()).
-        this.getFeaturedData("http://localhost:8080/api/testfeatured");
+        this.getBlogData("http://localhost:8080/api/testblogddata");
     }
 
     render() {

@@ -33,7 +33,7 @@ const server = app.listen(port, () => {
   });
 });
 
-/* Request paths */
+/* Request paths (Currently, these are just test paths, serving sample information) */
 
 app.get('/', (req, res) => {res.send("Hello World!");});
 
@@ -42,15 +42,45 @@ app.get('/api/testpath', (req, res) => {
   res.send(response);
 });
 
-app.get('/api/testfeatured', (req, res) => {
-  let response = {
-      titles: ["A Sample Card", "Another Sample"],
-      descriptions: [
-      "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
-      "This is another paragraph element. It is significantly shorter than the previous one."
-      ],
-      images: ["wideimg1.jpg", "squareimg2.png"],
-      links: ["https://www.google.com.au/", "http://localhost:3000/"]
-  }
+app.get('/api/testblogddata', (req, res) => {
+
+  let response = [
+    {
+      title: "A Sample Card",
+      description: "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
+      image: "wideimg1.jpg",
+      link: "https://www.google.com.au/",
+      featured: true
+    },
+    {
+      title: "Another Sample",
+      description: "This is another paragraph element. It is significantly shorter than the previous one.",
+      image: "squareimg2.png",
+      link: "http://localhost:3000/",
+      featured: true
+    },
+    {
+      title: "A Normal Post",
+      description: "This describes a post in the normal blog previous format. Let's see how long we can make this before it breaks the preview! It may have to be very long, or on the other hand, the box may not take very much to break at all. From what I can see, the description renders fine on a computer, but it looks absolutely horrendous on a phone screen.",
+      image: "squareimg1.png",
+      link: "",
+      featured: false
+    },
+    {
+      title: "Yet Another Post",
+      description: "Here's another blog description, except this one's a lot shorter than the one above.",
+      image: "squareimg2.png",
+      link: "",
+      featured: false
+    },
+    {
+      title: "Once Again, a Post!",
+      description: "Oh there's another post as well! Let's see what this one's about. This has a description with a length roughly in between the first and the second one.",
+      image: "wideimg1.jpg",
+      link: "",
+      featured: false
+    }
+  ]
+
   res.send(response);
 });
