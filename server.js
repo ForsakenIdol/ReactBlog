@@ -7,9 +7,11 @@ const mysql = require('mysql');
 const dotenv = require('dotenv');
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 dotenv.config({ path: path.resolve(__dirname + "/src/private/config.env") }); // Load environmental variables
 
 // Create the connection to our MySQL database
@@ -34,3 +36,21 @@ const server = app.listen(port, () => {
 /* Request paths */
 
 app.get('/', (req, res) => {res.send("Hello World!");});
+
+app.get('/api/testpath', (req, res) => {
+  let response = {status: "success", message: "Welcome!"};
+  res.send(response);
+});
+
+app.get('/api/testfeatured', (req, res) => {
+  let response = {
+      titles: ["A Sample Card", "Another Sample"],
+      descriptions: [
+      "This is a test description. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
+      "This is another paragraph element. It is significantly shorter than the previous one."
+      ],
+      images: ["wideimg1.jpg", "squareimg2.png"],
+      links: ["https://www.google.com.au/", "http://localhost:3000/"]
+  }
+  res.send(response);
+});
