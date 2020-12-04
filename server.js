@@ -85,10 +85,16 @@ app.get('/api/testblogdata', (req, res) => {
   res.send(response);
 });
 
-app.get('/api/blog', (req, res) => {
-  db.query("SELECT * FROM posts ORDER BY id DESC;", (err, results, fields) => {
-    if (err) res.send(err);
-    else res.send(result);
+app.get('/api/blog/posts', (req, res) => {
+  db.query("SELECT * FROM post ORDER BY id ASC;", (err, result, fields) => {
+    if (err) {
+      console.log("Error!");
+      res.send(err);
+    }
+    else {
+      console.log(result.length);
+      res.send(result);
+    }
   });
 });
 
