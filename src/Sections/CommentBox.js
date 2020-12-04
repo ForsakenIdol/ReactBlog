@@ -5,6 +5,7 @@ import Comment from '../Components/Comment';
 class CommentBox extends React.Component {
 
     renderComments(comments) {
+        if (!comments) return (<p>No comments yet!</p>);
         let result = []
         for (let i = 0; i < comments.length; i++) {
             if (comments[i].post_id === this.props.post_id) {
@@ -16,6 +17,7 @@ class CommentBox extends React.Component {
                 );
             }
         }
+        if (result.length == 0) return (<p>No comments yet!</p>);
         return result;
     }
 
