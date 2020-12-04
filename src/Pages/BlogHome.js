@@ -51,7 +51,7 @@ class BlogHome extends React.Component {
     componentDidMount() {
         console.log("Blog mounted!");
         // Here we'll fetch the data from our server, which will probably be on something like "localhost:8080", and set state using that data (this.setState()).
-        this.getBlogData("http://localhost:8080/api/testblogddata");
+        this.getBlogData("http://localhost:8080/api/testblogdata");
     }
 
     render() {

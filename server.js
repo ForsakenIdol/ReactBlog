@@ -42,7 +42,7 @@ app.get('/api/testpath', (req, res) => {
   res.send(response);
 });
 
-app.get('/api/testblogddata', (req, res) => {
+app.get('/api/testblogdata', (req, res) => {
 
   let response = [
     {
