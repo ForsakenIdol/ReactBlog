@@ -95,3 +95,9 @@ app.get('/api/blog', (req, res) => {
 app.get('*', (req, res) => {
   res.send("This route matches all routes not accounted for on this server.");
 });
+
+// This route will temporarily handle posting of the comment form.
+app.post('/', (req, res) => {
+  console.log("Posted");
+  res.redirect(301, "http://localhost:3000/");
+})

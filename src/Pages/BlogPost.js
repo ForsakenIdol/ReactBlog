@@ -2,6 +2,8 @@ import React from 'react';
 
 import Navbar from '../Components/Navbar';
 import BlogBox from '../Sections/BlogBox';
+import CommentForm from '../Components/CommentForm';
+import CommentBox from '../Sections/CommentBox';
 
 class BlogPost extends React.Component {
     
@@ -16,6 +18,8 @@ class BlogPost extends React.Component {
             <div className="blog-post">
                 <Navbar />
                 <BlogBox image={image} title={title} author={author} datetime={datetime} content={content}/>
+                <CommentForm />
+                <CommentBox />
             </div>
         );
     }
