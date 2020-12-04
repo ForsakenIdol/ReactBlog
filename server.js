@@ -84,3 +84,14 @@ app.get('/api/testblogdata', (req, res) => {
 
   res.send(response);
 });
+
+app.get('/api/blog', (req, res) => {
+  db.query("SELECT * FROM posts ORDER BY id DESC;", (err, results, fields) => {
+    if (err) res.send(err);
+    else res.send(result);
+  });
+});
+
+app.get('*', (req, res) => {
+  res.send("This route matches all routes not accounted for on this server.");
+});
