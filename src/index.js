@@ -6,8 +6,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import BlogHome from './Pages/BlogHome';
+import BlogPost from './Pages/BlogPost';
 
 ReactDOM.render(
-    <BlogHome />,
+    <BlogPost />,
     document.getElementById('root')
 );
