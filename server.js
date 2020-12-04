@@ -26,7 +26,7 @@ const db = mysql.createConnection({
 /* Setting up the port for our application */
 const port = 8080;
 const server = app.listen(port, () => {
-  console.log(`My website is now live on port ${port}.`);
+  console.log(`MySQL API server is now live on port ${port}.`);
   db.connect(function(err) {
     if (err) console.log(err);
     else console.log("Connected to MYSQL!");
