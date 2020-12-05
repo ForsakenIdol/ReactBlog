@@ -42,49 +42,6 @@ app.get('/api/testpath', (req, res) => {
   res.send(response);
 });
 
-app.get('/api/testblogdata', (req, res) => {
-
-  let response = [
-    {
-      title: "A Sample Card",
-      subtitle: "This is a test subtitle. It is meant to take up a fair amount of space so that the styling and width of this paragraph element can be tested, and so that the size can be adjusted if needed. HD 16:9 and widescreen image resolutions work the best as backgrounds for these images.",
-      image: "wideimg1.jpg",
-      link: "https://www.google.com.au/",
-      featured: true
-    },
-    {
-      title: "Another Sample",
-      subtitle: "This is another paragraph element. It is significantly shorter than the previous one.",
-      image: "squareimg2.png",
-      link: "http://localhost:3000/",
-      featured: true
-    },
-    {
-      title: "A Normal Post",
-      subtitle: "This describes a post in the normal blog previous format. Let's see how long we can make this before it breaks the preview! It may have to be very long, or on the other hand, the box may not take very much to break at all. From what I can see, the subtitle renders fine on a computer, but it looks absolutely horrendous on a phone screen.",
-      image: "squareimg1.png",
-      link: "",
-      featured: false
-    },
-    {
-      title: "Yet Another Post",
-      subtitle: "Here's another blog subtitle, except this one's a lot shorter than the one above.",
-      image: "squareimg2.png",
-      link: "",
-      featured: false
-    },
-    {
-      title: "Once Again, a Post!",
-      subtitle: "Oh there's another post as well! Let's see what this one's about. This has a subtitle with a length roughly in between the first and the second one.",
-      image: "wideimg1.jpg",
-      link: "",
-      featured: false
-    }
-  ]
-
-  res.send(response);
-});
-
 app.get('/api/blog/posts', (req, res) => {
   db.query("SELECT * FROM post ORDER BY id ASC;", (err, result, fields) => {
     if (err) {
