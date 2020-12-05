@@ -47,9 +47,20 @@ app.get('/api/blog/posts', (req, res) => {
     if (err) {
       console.log("Error!");
       res.send(err);
-    }
-    else {
+    } else {
       console.log(result.length);
+      res.send(result);
+    }
+  });
+});
+
+app.get('/api/blog/posts/:id', (req, res) => {
+  db.query("SELECT * FROM post WHERE id = ?", [req.params.id], (err, result, fields) => {
+    if (err) {
+      console.log("Error!");
+      res.send(err);
+    } else {
+      console.log(result);
       res.send(result);
     }
   });
@@ -63,4 +74,4 @@ app.get('*', (req, res) => {
 app.post('/', (req, res) => {
   console.log("Posted");
   res.redirect(301, "http://localhost:3000/");
-})
+});
