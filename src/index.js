@@ -9,6 +9,6 @@ import BlogHome from './Pages/BlogHome';
 import BlogPost from './Pages/BlogPost';
 
 ReactDOM.render(
-    <BlogHome />,
+    <BlogPost />,
     document.getElementById('root')
 );

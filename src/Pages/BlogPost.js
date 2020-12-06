@@ -7,13 +7,18 @@ import CommentBox from '../Sections/CommentBox';
 
 class BlogPost extends React.Component {
     
-    render() {
-        let image = process.env.PUBLIC_URL + '/wideimg1.jpg';
-        let title = "A Test Post"
-        let author = "ForsakenIdol";
-        let datetime = "20/11/2020 14:00:00";
-        let content = "This is test content.\nLet's see how this renders!"
+    componentDidMount() {
+        console.log("Blog post mounted!");
+    }
 
+    render() {
+        let post = {
+            title: "A Test Post",
+            author: "ForsakenIdol",
+            datetime: "20/11/2020 14:00:00",
+            image: process.env.PUBLIC_URL + '/wideimg1.jpg',
+            content: "This is test content.\nLet's see how this renders!"
+        }
         let comments = [
             {
                 author: "ForsakenIdol",
@@ -30,7 +35,7 @@ class BlogPost extends React.Component {
         return (
             <div className="blog-post">
                 <Navbar />
-                <BlogBox image={image} title={title} author={author} datetime={datetime} content={content}/>
+                <BlogBox post={post}/>
                 <CommentForm />
                 <CommentBox comments={comments} />
             </div>
