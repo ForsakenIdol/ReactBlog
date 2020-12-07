@@ -56,6 +56,7 @@ app.get('/api/blog/posts', (req, res) => {
 
 app.get('/api/blog/samplepost', (req, res) => {
   let post = {
+    id: 1,
     title: "A Test Post",
     author: "ForsakenIdol",
     datetime: "20/11/2020 14:00:00",
