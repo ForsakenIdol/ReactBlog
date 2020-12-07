@@ -29,6 +29,9 @@ class BlogPost extends React.Component {
     }
 
     render() {
+        console.log("Path id param: " + this.props.match.params.id);
+        console.log(typeof(this.props.match.params.id));
+        console.log(parseInt(this.props.match.params.id));
         return (
             <div className="blog-post">
                 <Navbar />

@@ -16,7 +16,7 @@ ReactDOM.render(
           // This will need some logic which identifies variables in the path URL and uses them to request the blog data
           // which matches that particular variable (ID for posts)
           }
-          <Route path='/post' component={BlogPost} />
+          <Route path='/post/:id' component={BlogPost} />
           <Route path='/about'>
             <About />
           </Route>
