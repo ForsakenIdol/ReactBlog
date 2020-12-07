@@ -35,13 +35,6 @@ const server = app.listen(port, () => {
 
 /* Request paths (Currently, these are just test paths, serving sample information) */
 
-app.get('/', (req, res) => {res.send("Hello World!");});
-
-app.get('/api/testpath', (req, res) => {
-  let response = {status: "success", message: "Welcome!"};
-  res.send(response);
-});
-
 app.get('/api/blog/posts', (req, res) => {
   db.query("SELECT * FROM post ORDER BY id ASC;", (err, result, fields) => {
     if (err) {
