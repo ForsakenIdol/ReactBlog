@@ -38,7 +38,7 @@ class Navbar extends React.Component {
           </button>
           <div className="collapse navbar-collapse" id="navigationlinks">
             <ul className="navbar-nav mr-auto" id="navlinks-left">
-              <li className="nav-item"><Link to='/'>Home</Link></li>
+              <li className="nav-item"><Link to='/'>Blog</Link></li>
               <li className="nav-item"><Link to='/about'>About</Link></li>
               <li className="nav-item"><Link to='/contact'>Contact</Link></li>
             </ul>
