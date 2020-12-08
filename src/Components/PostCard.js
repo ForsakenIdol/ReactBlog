@@ -27,11 +27,11 @@ function PostCard(props) {
             break;
     }
     return (
-        <div className={className}>
+        <button className={className} onClick={e => {e.preventDefault(); window.location.href = props.link ? props.link : "#"}}>
             <img src={props.image} alt="placeholder" className="post-image" />
             <h3 className="post-title">{props.title}</h3>
             <p>{props.subtitle}</p>
-        </div>
+        </button>
     );
 }
 

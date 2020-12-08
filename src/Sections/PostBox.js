@@ -5,7 +5,7 @@ import PostCard from '../Components/PostCard';
 
 class PostBox extends React.Component {
 
-    renderPosts(titles, subtitles, images, postsPerLine) {
+    renderPosts(titles, subtitles, images, links, postsPerLine) {
        if (titles.length === 0 || subtitles.length === 0) return (<p>No posts yet!</p>);
         let cards = [];
         let elements = []
@@ -16,7 +16,7 @@ class PostBox extends React.Component {
                 elements = [];
             }
             elements.push(
-                <PostCard key={i} title={titles[i]} subtitle={subtitles[i]} image={images[i]} postWidth={12 / postsPerLine} />
+                <PostCard key={i} title={titles[i]} subtitle={subtitles[i]} image={images[i]} postWidth={12 / postsPerLine} link={links[i]} />
             );
         }
         cards.push(<div key={cardKey} className="row">{elements}</div>);
@@ -27,7 +27,7 @@ class PostBox extends React.Component {
         return (
             <div className="post-box container">
                 <h2 className="section-header">All Posts</h2>
-                {this.renderPosts(this.props.titles, this.props.subtitles, this.props.images, this.props.postsPerLine)}
+                {this.renderPosts(this.props.titles, this.props.subtitles, this.props.images, this.props.links, this.props.postsPerLine)}
             </div>
         );
     }
