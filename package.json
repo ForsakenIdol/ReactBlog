@@ -24,7 +24,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+
+    "auth": "nodemon servers/auth.js",
+    "blog": "nodemon servers/blog.js"
   },
   "eslintConfig": {
     "extends": [
