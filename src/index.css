@@ -79,6 +79,10 @@ div.description {
     }
 }
 
+div.comment-box {
+    margin-bottom: 5rem;
+}
+
 /* Headers */
 
 div.title-card h1 {
