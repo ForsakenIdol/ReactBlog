@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import BlogHome from '../Pages/BlogHome';
 import BlogPost from '../Pages/BlogPost';
+import BlogAbout from '../Pages/BlogAbout';
 
 /*
  * ~~~~~~~~~~ Great React Router Pages ~~~~~~~~~~
@@ -51,18 +52,12 @@ class Navbar extends React.Component {
           // which matches that particular variable (ID for posts)
           }
           <Route path='/post/:id' component={BlogPost} />
-          <Route path='/about'>
-            <About />
-          </Route>
+          <Route path='/about' component={BlogAbout} />
           <Route path='/' component={BlogHome} />
         </Switch>
       </Router>
     );
   }
-}
-
-function About() {
-  return <h2>The about page.</h2>;
 }
 
 export default Navbar;
