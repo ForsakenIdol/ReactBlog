@@ -1,5 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
+import BlogHome from '../Pages/BlogHome';
+import BlogPost from '../Pages/BlogPost';
 
 /*
  * ~~~~~~~~~~ Great React Router Pages ~~~~~~~~~~
@@ -41,9 +44,25 @@ class Navbar extends React.Component {
             {this.render_auth(this.props.logged_in)}
           </div>
         </nav>
+
+        <Switch>
+          {
+          // This will need some logic which identifies variables in the path URL and uses them to request the blog data
+          // which matches that particular variable (ID for posts)
+          }
+          <Route path='/post/:id' component={BlogPost} />
+          <Route path='/about'>
+            <About />
+          </Route>
+          <Route path='/' component={BlogHome} />
+        </Switch>
       </Router>
     );
   }
+}
+
+function About() {
+  return <h2>The about page.</h2>;
 }
 
 export default Navbar;

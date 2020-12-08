@@ -58,7 +58,6 @@ class BlogHome extends React.Component {
         console.log("Loading blog home!");
         return (
             <div className="blog-home">
-                <Navbar logged_in={false} />
                 <TitleCard />
                 <FeaturedBox 
                     titles={this.state ? this.state.featuredTitles : []}

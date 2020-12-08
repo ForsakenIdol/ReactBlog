@@ -34,7 +34,6 @@ class BlogPost extends React.Component {
         console.log(parseInt(this.props.match.params.id));
         return (
             <div className="blog-post">
-                <Navbar />
                 <BlogBox post={this.state ? this.state.post : ""}/>
                 <CommentForm />
                 <CommentBox comments={this.state ? this.state.comments: ""} />
