@@ -62,6 +62,16 @@ div.post-card {
     }
 }
 
+@media (max-width: 576px) {
+    div.description {
+        width: 200%;
+    }
+
+    div.description p {
+        text-align: center;
+    }
+}
+
 /* Headers */
 
 div.title-card h1 {
