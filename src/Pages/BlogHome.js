@@ -12,10 +12,11 @@ class BlogHome extends React.Component {
         fetch(address).then(response => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error("Featured blog response was not ok.");
+                throw new Error("Blog response was not ok.");
             }
             return response.json();
         }).then(result => {
+            let domain = "http://localhost:3000";
             console.log(result);
             let titles = []; let subtitles = []; let images = []; let links = [];
             let featuredTitles = []; let featuredSubtitles = [];
@@ -24,12 +25,12 @@ class BlogHome extends React.Component {
                 titles.push(result[i].title);
                 subtitles.push(result[i].subtitle);
                 images.push(result[i].image_link);
-                links.push(result[i].link);
+                links.push(domain + "/post/" + result[i].id);
                 if (result[i].featured) {
                     featuredTitles.push(result[i].title);
                     featuredSubtitles.push(result[i].subtitle);
                     featuredImages.push(result[i].image_link);
-                    featuredLinks.push(result[i].link);
+                    featuredLinks.push(domain + "/post/" + result[i].id);
                 }
             }
             this.setState({

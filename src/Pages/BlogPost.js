@@ -14,17 +14,19 @@ class BlogPost extends React.Component {
             }
             return response.json();
         }).then(result => {
-            console.log(result);
+            console.log(result[0]);
+            console.log(result[1]);
             this.setState({
                 post: result[0],
-                comments: result[1]
+                comments: result[1],
+                author: result[2].username
             });
         }).catch(error => {console.log("Error during fetch: " + error);});
     }
 
     componentDidMount() {
         console.log("Blog post mounted!");
-        this.getBlogPost("http://localhost:8080/api/blog/samplepost");
+        this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
     }
 
     render() {
@@ -33,7 +35,7 @@ class BlogPost extends React.Component {
         console.log(parseInt(this.props.match.params.id));
         return (
             <div className="blog-post">
-                <BlogBox post={this.state ? this.state.post : ""}/>
+                <BlogBox post={this.state ? this.state.post : ""} author={this.state ? this.state.author : ""}/>
                 <CommentForm />
                 <CommentBox comments={this.state ? this.state.comments: ""} />
             </div>

@@ -72,19 +72,27 @@ app.get('/api/blog/samplepost', (req, res) => {
 });
 
 app.get('/api/blog/posts/:id', (req, res) => {
-  db.query("SELECT * FROM post WHERE id = ?", [req.params.id], (err, post, fields) => {
+  db.query("SELECT * FROM post WHERE id = ?;", [req.params.id], (err, post, fields) => {
     if (err) {
       console.log("Error!");
       res.send(err);
     } else {
       console.log(post);
-      db.query("SELECT * FROM comment WHERE post_id = ?", [req.params.id], (err, comments, fields) => {
+      db.query("SELECT * FROM comment WHERE post_id = ?;", [req.params.id], (err, comments, fields) => {
         if (err) {
           console.log("Error!");
           res.send(err);
         } else {
           console.log(comments);
-          res.send([post, comments]);
+          db.query("SELECT username FROM user WHERE id = ?;", [post[0].user_id], (err, user, fields) => {
+            if (err) {
+              console.log("Error!");
+              res.send(err);
+            } else {
+              console.log(user);
+              res.send([post[0], comments, user[0]]);
+            }
+          });
         }
       });
     }

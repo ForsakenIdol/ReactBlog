@@ -6,8 +6,7 @@ import PostCard from '../Components/PostCard';
 class PostBox extends React.Component {
 
     renderPosts(titles, subtitles, images, postsPerLine) {
-        if (![1, 2, 3, 4, 6, 12].includes(postsPerLine)) console.log("Posts per line is an awkward number! Attempting anyway...");
-        if (titles.length === 0 || subtitles.length === 0) return (<p>No posts yet!</p>);
+       if (titles.length === 0 || subtitles.length === 0) return (<p>No posts yet!</p>);
         let cards = [];
         let elements = []
         let cardKey = 100;
@@ -16,7 +15,6 @@ class PostBox extends React.Component {
                 cards.push(<div key={cardKey++} className="row">{elements}</div>);
                 elements = [];
             }
-            if (images[i].includes('/')) console.log(`Image ${images[i]} contains a backslash '/'. This may be the reason why the image is not displaying. Include only the name of the image or its path starting from the public folder.`);
             elements.push(
                 <PostCard key={i} title={titles[i]} subtitle={subtitles[i]} image={images[i]} postWidth={12 / postsPerLine} />
             );
