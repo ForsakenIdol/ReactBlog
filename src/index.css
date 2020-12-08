@@ -171,6 +171,12 @@ img.post-image {
     height: 20rem;
     object-fit: cover;
     border-radius: 0.5rem;
+    transition: 500ms;
+}
+
+img.post-image:hover {
+    -webkit-filter: brightness(50%);
+    filter: brightness(50%);
 }
 
 .blog-feature-image {
