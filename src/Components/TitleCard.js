@@ -3,7 +3,7 @@
 function TitleCard() {
     return (
         <div className="title-card">
-            <h1>Blog</h1>
+            <h1>My Blog</h1>
             <em>A space to share my thoughts.</em>
         </div>
     );
