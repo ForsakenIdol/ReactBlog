@@ -38,9 +38,10 @@ class Navbar extends React.Component {
           </button>
           <div className="collapse navbar-collapse" id="navigationlinks">
             <ul className="navbar-nav mr-auto" id="navlinks-left">
-              <li className="nav-item"><Link to='/'>Blog</Link></li>
+              <li className="nav-item"><a href="https://forsakenidol.com/" target="_blank" rel="noreferrer">Home</a></li>
               <li className="nav-item"><Link to='/about'>About</Link></li>
-              <li className="nav-item"><Link to='/contact'>Contact</Link></li>
+              <li className="nav-item"><a href="https://forsakenidol.com/contact" target="_blank" rel="noreferrer">Contact</a></li>
+              <li className="nav-item"><Link to='/'>Blog</Link></li>
             </ul>
             {this.render_auth(this.props.logged_in)}
           </div>
