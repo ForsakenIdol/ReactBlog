@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Navbar from '../Components/Navbar';
 import BlogBox from '../Sections/BlogBox';
 import CommentForm from '../Components/CommentForm';
 import CommentBox from '../Sections/CommentBox';

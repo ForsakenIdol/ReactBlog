@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TitleCard from '../Components/TitleCard';
-import Navbar from '../Components/Navbar';
 import FeaturedBox from '../Sections/FeaturedBox';
 import PostBox from '../Sections/PostBox';
 
