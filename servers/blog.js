@@ -1,6 +1,5 @@
 /*
- * Our server will be responsible for providing a wrapper for the MySQL package.
- * We'll wrap it in Express and serve some routes for our application.
+ * This server wraps only the blog routes in the MySQL database using Express and the Node.js mysql package.
  */
 
 const mysql = require('mysql');
@@ -12,7 +11,7 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors());
-dotenv.config({ path: path.resolve(__dirname + "/src/private/config.env") }); // Load environmental variables
+dotenv.config({ path: path.resolve(__dirname + "/../src/private/config.env") }); // Load environmental variables
 
 // Create the connection to our MySQL database
 const db = mysql.createConnection({
@@ -26,7 +25,7 @@ const db = mysql.createConnection({
 /* Setting up the port for our application */
 const port = 8080;
 const server = app.listen(port, () => {
-  console.log(`MySQL API server is now live on port ${port}.`);
+  console.log(`Blog API server is now live on port ${port}.`);
   db.connect(function(err) {
     if (err) console.log(err);
     else console.log("Connected to MYSQL!");
