@@ -48,13 +48,15 @@ let tempUsers = [
     username: "johndoe",
     email: "jd1234@example.com",
     password_plain: "veryweakpassword",
-    password_hash: "$2b$10$mBKis30z6XqpLGJq0F3LAuzxZFPPsmDZELyphk5hUQQa0WwTGXHmy"
+    password_hash: "$2b$10$mBKis30z6XqpLGJq0F3LAuzxZFPPsmDZELyphk5hUQQa0WwTGXHmy",
+    access: "original"
   }, {
     id: 2,
     username: "copcop",
     email: "copcop@test.org",
     password_plain: "extremelygoodpassword",
-    password_hash: "$2b$10$JanxSBM9JAVi78/5kL3WZOJb/afVUS99MEyAcWEunKXJr/n61SuIe"
+    password_hash: "$2b$10$JanxSBM9JAVi78/5kL3WZOJb/afVUS99MEyAcWEunKXJr/n61SuIe",
+    access: "unique"
   }
 ]
 
@@ -99,7 +101,26 @@ auth.get('/bcrypttest', (req, res) => {
 
 auth.post('/login', (req, res) => {
   console.log("Posted to login route!");
-  res.send(req.body);
+  if (!req.body.username) return res.status(400).send({missing: "username"});
+  if (!req.body.password) return res.status(400).send({missing: "password"});
+  // Here, ideally we would search for the username in the database and check that
+  // the password hash matches the plaintext password.
+  console.log(req.body);
+  // We then generate and send a JWT back to the client.
+  let payload = {
+    id: tempUsers[1].id,
+    username: tempUsers[1].username,
+    email: tempUsers[1].email,
+    access: tempUsers[1].access
+  };
+  jwt.sign(payload, byteString1, { expiresIn: "10m" }, (err, token) => {
+    if (err) {
+      console.log(err);
+      return res.send({status: "error", error: err});
+    }
+    console.log(token);
+    res.send({status: "success", token: token});
+  });
 });
 
 auth.get('*', (req, res) => {
