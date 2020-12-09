@@ -30,6 +30,33 @@ class Navbar extends React.Component {
     );
   }
 
+  /* Prop Functions */
+
+  loginFormSubmit(e) {
+    e.preventDefault();
+    let username = document.getElementById("login-form-username").value;
+    let password = document.getElementById("login-form-password").value;
+    let body = {username: username, password: password};
+    fetch("http://localhost:5000/login", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) throw new Error("Login response was not ok");
+        else {
+            console.log("Response was ok!");
+            return response.json();
+        }
+    }).then(result => {
+        console.log(result);
+        // Here, we would store both the access and the refresh tokens received from the auth server in memory.
+        if (result.status == "success") console.log(result.token);
+    }).catch(error => console.log(error));
+    console.log(username, password);
+  }
+
+  /* Render Function */
+
   render() {
     return (
       <Router>
@@ -55,7 +82,7 @@ class Navbar extends React.Component {
           }
           <Route path='/post/:id' component={BlogPost} />
           <Route path='/about' component={BlogAbout} />
-          <Route path='/login' component={BlogLogin} />
+          <Route path='/login' render={props => <BlogLogin handleSubmit={this.loginFormSubmit}/>} />
           <Route path='/' component={BlogHome} />
         </Switch>
       </Router>
