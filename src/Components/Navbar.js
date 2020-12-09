@@ -34,25 +34,22 @@ class Navbar extends React.Component {
 
   loginFormSubmit(e) {
     e.preventDefault();
-    let username = document.getElementById("login-form-username").value;
-    let password = document.getElementById("login-form-password").value;
-    let body = {username: username, password: password};
+    let body = {
+      username: document.getElementById("login-form-username").value,
+      password: document.getElementById("login-form-password").value
+    };
     fetch("http://localhost:5000/login", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
     }).then(response => {
         if (!response.ok) throw new Error("Login response was not ok");
-        else {
-            console.log("Response was ok!");
-            return response.json();
-        }
+        else return response.json();
     }).then(result => {
         console.log(result);
         // Here, we would store both the access and the refresh tokens received from the auth server in memory.
-        if (result.status == "success") console.log(result.token);
+        console.log(result.access_token);
     }).catch(error => console.log(error));
-    console.log(username, password);
   }
 
   /* Render Function */
