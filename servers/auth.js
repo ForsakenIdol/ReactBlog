@@ -64,6 +64,10 @@ let generateAccessToken = payload => {
   return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
 }
 
+let generateRefreshToken = payload => {
+  return jwt.sign(payload, REFRESH_TOKEN_SECRET);
+}
+
 /* Authentication Paths */
 
 auth.get('/randombytes/:i', (req, res) => {
@@ -96,5 +100,5 @@ auth.post('/login', (req, res) => {
     email: user.email,
     access: user.access
   };
-  res.send({access_token: generateAccessToken(payload)});
+  res.send({accessToken: generateAccessToken(payload), refreshToken: generateRefreshToken(payload)});
 });

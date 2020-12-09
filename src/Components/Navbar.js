@@ -48,7 +48,8 @@ class Navbar extends React.Component {
     }).then(result => {
         console.log(result);
         // Here, we would store both the access and the refresh tokens received from the auth server in memory.
-        console.log(result.access_token);
+        console.log(result.accessToken);
+        console.log(result.refreshToken);
     }).catch(error => console.log(error));
   }
 
