@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import BlogHome from '../Pages/BlogHome';
 import BlogPost from '../Pages/BlogPost';
 import BlogAbout from '../Pages/BlogAbout';
+import BlogLogin from '../Pages/BlogLogin';
 
 /*
  * ~~~~~~~~~~ Great React Router Pages ~~~~~~~~~~
@@ -18,7 +19,7 @@ class Navbar extends React.Component {
     if (!logged_in) return (
       <ul className="navbar-nav ml-auto" id="navlinks-right">
         <li className="nav-item"><Link to='/login'>Login</Link></li>
-        <li className="nav-item"><Link to='/register' className="register">Register</Link></li>
+        <li className="nav-item"><a href='https://forsakenidol.com/register' target="_blank" rel="noreferrer" className="register">Register</a></li>
       </ul>
     );
     else return (
@@ -54,6 +55,7 @@ class Navbar extends React.Component {
           }
           <Route path='/post/:id' component={BlogPost} />
           <Route path='/about' component={BlogAbout} />
+          <Route path='/login' component={BlogLogin} />
           <Route path='/' component={BlogHome} />
         </Switch>
       </Router>
