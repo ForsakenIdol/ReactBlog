@@ -10,10 +10,13 @@ const cors = require('cors');
 const { randomBytes } = require('crypto');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
 
 const auth = express();
 
 auth.use(cors());
+auth.use(bodyParser.urlencoded({extended: false}));
+auth.use(bodyParser.json());
 dotenv.config({ path: path.resolve(__dirname + "/../src/private/config.env") }); // Load environmental variables
 
 // Create the connection to our MySQL database
@@ -92,6 +95,11 @@ auth.get('/bcrypttest', (req, res) => {
     bcrypt.compareSync(user.password_plain, user.password_hash)
       ? "Hashes match!" : "Hashes do not match!");
   });
+});
+
+auth.post('/login', (req, res) => {
+  console.log("Posted to login route!");
+  res.send(req.body);
 });
 
 auth.get('*', (req, res) => {

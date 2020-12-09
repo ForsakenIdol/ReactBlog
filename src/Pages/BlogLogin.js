@@ -1,14 +1,10 @@
-import React from 'react';
-
-export default class BlogLogin extends React.Component {
-    
-    render() {
+export default function BlogLogin() {
         return (
             <div style={{marginTop: "7rem"}}>
                 <h1 style={{fontFamily: "'Sahitya', sans-serif", fontSize: "3rem", textAlign: "center", marginBottom: "3.5rem"}}>Login</h1>
                 <div class="row">
                     <div class="col-3" />
-                    <form class="col-6" id="login-form">
+                    <form action="http://localhost:5000/login" method="POST" class="col-6" id="login-form">
                         <div className="form-group">
                             <label for="login-form-username" class="form-label" >Username <span style={{color: "red"}}>*</span></label>
                             <input type="text" name="username" className="form-control" style={{ border: "2px solid #555", marginBottom: "0.5rem" }} id="login-form-username" placeholder="Username" required />
@@ -16,13 +12,11 @@ export default class BlogLogin extends React.Component {
                         </div>
                         <div className="form-group">
                             <label for="login-form-password" class="form-label" >Password <span style={{color: "red"}}>*</span></label>
-                            <input type="password" name="username" className="form-control" style={{ border: "2px solid #555" }} id="login-form-password" placeholder="Password" required />
+                            <input type="password" name="password" className="form-control" style={{ border: "2px solid #555" }} id="login-form-password" placeholder="Password" required />
                         </div>
                         <input type="submit" className="btn btn-dark" />
                     </form>
                 </div>
             </div>
         );
-    }
-
 }
