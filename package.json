@@ -6,11 +6,13 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "bcrypt": "^5.0.0",
     "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "popper.js": "^1.16.1",
     "react": "^17.0.1",
@@ -25,7 +27,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-
     "auth": "nodemon servers/auth.js",
     "blog": "nodemon servers/blog.js"
   },
