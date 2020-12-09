@@ -1,8 +1,4 @@
-import React from 'react';
-
-class BlogAbout extends React.Component {
-
-    render() {
+function BlogAbout() {
         let hrclass = "";
         return (
             <div className="blog-about">
@@ -25,8 +21,6 @@ class BlogAbout extends React.Component {
                 </div>
             </div>
         );
-    }
-
 }
 
 export default BlogAbout
