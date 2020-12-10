@@ -38,7 +38,7 @@ export default class BlogLogin extends React.Component {
 
     render() {
         return (
-            <div style={{marginTop: "7rem"}}>
+            <div style={{marginTop: "7rem", marginBottom: "5rem"}}>
                 <h1 className="form-title">Login</h1>
                 <form action="http://localhost:5000/login" method="POST" className="container auth-form" id="login-form">
                     <div className="form-group">
