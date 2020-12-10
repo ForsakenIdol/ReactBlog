@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 
 import BlogHome from '../Pages/BlogHome';
 import BlogPost from '../Pages/BlogPost';
@@ -57,7 +57,8 @@ class Navbar extends React.Component {
           // Put refresh token in storage (we only have to worry about a single refresh token on the client side per login "session")
           localStorage.setItem("refreshToken", result.refreshToken);
           localStorage.setItem("accessToken", result.accessToken);
-          console.log(localStorage);  
+          console.log(localStorage);
+          this.setState({logged_in: true});
         }
     }).catch(error => console.log(error));
   }
@@ -102,8 +103,12 @@ class Navbar extends React.Component {
           }
           <Route path='/post/:id' component={BlogPost} />
           <Route path='/about' component={BlogAbout} />
-          <Route path='/login' render={props => <BlogLogin handleSubmit={this.loginFormSubmit}/>} />
-          <Route path='/register' render={props => <BlogRegister handleSubmit={this.registerFormSubmit}/>} />
+          <Route path='/login' >
+            {this.state.logged_in ? <Redirect to='/' /> : <BlogLogin handleSubmit={this.loginFormSubmit}/>}
+          </Route>
+          <Route path='/register' >
+            {this.state.logged_in ? <Redirect to='/' /> : <BlogRegister handleSubmit={this.registerFormSubmit}/>}
+          </Route>
           <Route path='/' component={BlogHome} />
         </Switch>
       </Router>
