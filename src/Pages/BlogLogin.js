@@ -14,7 +14,7 @@ export default class BlogLogin extends React.Component {
         if (username === '') {
             $("#login-form-username-error").text(loginUsernameError);
             $("#login-form-username-error").fadeToggle(500);
-            setTimeout(() => {$("#login-form-username-error").fadeToggle(500);}, 3000);
+            setTimeout(() => {$("#login-form-username-error").fadeToggle(500);}, 2000);
             errors++;
         }
 

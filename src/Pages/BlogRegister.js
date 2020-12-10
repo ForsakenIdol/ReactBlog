@@ -3,13 +3,58 @@ import $ from 'jquery';
 
 export default class BlogRegister extends React.Component {
     checkRegisterForm() {
+        var registerUsernameError = "Please enter a username.";
+        var registerEmailErrorEmpty = "Please enter an email address.";
+        var registerEmailErrorInvalid = "Please enter a valid email address.";
+        var registerPasswordError = "Please enter a password.";
+        var registerConfirmPasswordError = "Passwords do not match.";
+
         let errors = 0;
+
+        // Validate username
+        var username = $("#register-form-username").val();
+        if (username === '') {
+            $("#register-form-username-error").text(registerUsernameError);
+            errors++;
+        }
+
+        // Validate email
+        var email = $("#register-form-email").val();
+        var emailRegex = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
+        if (email === '') {
+            $("#register-form-email-error").text(registerEmailErrorEmpty);
+            errors++;
+        } else if (!emailRegex.test(email)) {
+            $("#register-form-email-error").text(registerEmailErrorInvalid);
+            errors++;
+        }
+
+        // Validate password
+        var password = $("#register-form-password").val();
+        if (password === '') {
+            $("#register-form-password-error").text(registerPasswordError);
+            errors++;
+        }
+
+        // Validate confirm password
+        var confirmpassword = $("#register-form-confirm-password").val();
+        if (confirmpassword !== password) {
+            $("#register-form-confirm-password-error").text(registerConfirmPasswordError);
+            errors++;
+        }
+
+        if (errors > 0) {
+            $(".form-failure").fadeToggle(500);
+            // We delay text removal so it doesn't interfere with the fade out.
+            setTimeout(() => {$(".form-failure").fadeToggle(500);}, 2000);
+            setTimeout(() => {$(".form-failure").text('');}, 3000);
+        }
 
         return errors === 0;
     }
 
     componentDidMount() {
-
+        $(".form-failure").hide(); // Hide all 4 form-failure spans at once
     }
     
     render() {
