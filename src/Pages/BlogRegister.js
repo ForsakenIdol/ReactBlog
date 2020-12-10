@@ -85,7 +85,19 @@ export default class BlogRegister extends React.Component {
                         <input type="password" name="password" className="form-control" style={{ border: "2px solid #555" }} id="register-form-confirm-password" placeholder="Repeat Password" />
                         <span className="form-failure" id="register-form-confirm-password-error"></span>
                     </div>
-                    <button type="submit" className="btn btn-dark" onClick={e => {e.preventDefault(); if (this.checkRegisterForm()) this.props.handleSubmit(e);}}>Register</button>
+                    <button type="submit" className="btn btn-dark" onClick={
+                        e => {
+                            e.preventDefault();
+                            if (this.checkRegisterForm()) {
+                                let body = {
+                                    username: $("#register-form-username").val(),
+                                    email: $("#register-form-email").val(),
+                                    password: $("#register-form-password").val()
+                                }
+                                this.props.handleSubmit(body);
+                            }
+                        }
+                    }>Register</button>
                 </form>
             </div>
         );

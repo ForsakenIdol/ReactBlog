@@ -52,7 +52,19 @@ export default class BlogLogin extends React.Component {
                         <input type="password" name="password" className="form-control" style={{ border: "2px solid #555" }} id="login-form-password" placeholder="Password" />
                         <span className="form-failure" id="login-form-password-error"></span>
                     </div>
-                    <button type="submit" className="btn btn-dark" onClick={e => {e.preventDefault(); if (this.checkLoginForm()) this.props.handleSubmit(e);}}>Login</button>
+                    <button type="submit" className="btn btn-dark" onClick={
+                        e => {
+                            e.preventDefault();
+                            if (this.checkLoginForm()) {
+                                let body = {
+                                    username: document.getElementById("login-form-username").value,
+                                    password: document.getElementById("login-form-password").value
+                                  };
+                                this.props.handleSubmit(body);
+                                
+                            }
+                        }
+                    }>Login</button>
                 </form>
             </div>
         );

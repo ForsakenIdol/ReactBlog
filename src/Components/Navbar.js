@@ -41,11 +41,7 @@ class Navbar extends React.Component {
 
   /* Prop Functions */
 
-  loginFormSubmit(e) {
-    let body = {
-      username: document.getElementById("login-form-username").value,
-      password: document.getElementById("login-form-password").value
-    };
+  loginFormSubmit(body) {
     fetch("http://localhost:5000/login", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -64,6 +60,10 @@ class Navbar extends React.Component {
           console.log(localStorage);  
         }
     }).catch(error => console.log(error));
+  }
+
+  registerFormSubmit(body) {
+    console.log("Hello there!");
   }
 
   /* Render Function */
@@ -94,7 +94,7 @@ class Navbar extends React.Component {
           <Route path='/post/:id' component={BlogPost} />
           <Route path='/about' component={BlogAbout} />
           <Route path='/login' render={props => <BlogLogin handleSubmit={this.loginFormSubmit}/>} />
-          <Route path='/register' render={props => <BlogRegister />} />
+          <Route path='/register' render={props => <BlogRegister handleSubmit={this.registerFormSubmit}/>} />
           <Route path='/' component={BlogHome} />
         </Switch>
       </Router>
