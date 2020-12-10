@@ -33,7 +33,6 @@ class Navbar extends React.Component {
   /* Prop Functions */
 
   loginFormSubmit(e) {
-    e.preventDefault();
     let body = {
       username: document.getElementById("login-form-username").value,
       password: document.getElementById("login-form-password").value
@@ -46,14 +45,14 @@ class Navbar extends React.Component {
         if (!response.ok) throw new Error("Login response was not ok");
         else return response.json();
     }).then(result => {
+        console.log("Login result below.");
         console.log(result);
         // Here, we would store both the access and the refresh tokens received from the auth server in memory.
         if (!result.result) {
           // Put refresh token in storage (we only have to worry about a single refresh token on the client side per login "session")
           localStorage.setItem("refreshToken", result.refreshToken);
           localStorage.setItem("accessToken", result.accessToken);
-          console.log(localStorage);
-          console.log(result.refreshToken);
+          console.log(localStorage);  
         }
     }).catch(error => console.log(error));
   }

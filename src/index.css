@@ -227,3 +227,9 @@ label.form-label {
     font-size: 1.1rem;
     color: black;
 }
+
+span.form-failure {
+    display: block;
+    color: red;
+    margin-top: 0.25rem;
+}
