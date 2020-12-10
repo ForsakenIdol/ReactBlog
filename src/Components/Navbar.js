@@ -63,7 +63,16 @@ class Navbar extends React.Component {
   }
 
   registerFormSubmit(body) {
-    console.log("Hello there!");
+    fetch("http://localhost:5000/register", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (!response.ok) throw new Error("Register response was not ok");
+        else return response.json();
+    }).then(result => {
+      console.log(result);
+    }).catch(error => console.log(error));
   }
 
   /* Render Function */
