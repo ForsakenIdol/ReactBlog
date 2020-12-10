@@ -40,22 +40,20 @@ export default class BlogLogin extends React.Component {
         return (
             <div style={{marginTop: "7rem"}}>
                 <h1 className="form-title">Login</h1>
-                <div className="row">
-                    <form action="http://localhost:5000/login" method="POST" className="container auth-form" id="login-form">
-                        <div className="form-group">
-                            <label htmlFor="login-form-username" className="form-label" >Username <span style={{color: "red"}}>*</span></label>
-                            <input type="text" name="username" className="form-control" style={{ border: "2px solid #555" }} id="login-form-username" placeholder="Username" />
-                            <span className="form-failure" id="login-form-username-error"></span>
-                            <small id="login-info" className="form-text text-muted">Standard users, login to leave comments and view your personal information. Administrators, login to additionally manage accounts and moderate blog posts.</small>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="login-form-password" className="form-label" >Password <span style={{color: "red"}}>*</span></label>
-                            <input type="password" name="password" className="form-control" style={{ border: "2px solid #555" }} id="login-form-password" placeholder="Password" />
-                            <span className="form-failure" id="login-form-password-error"></span>
-                        </div>
-                        <button type="submit" className="btn btn-dark" onClick={e => {e.preventDefault(); if (this.checkLoginForm()) this.props.handleSubmit(e);}}>Login</button>
-                    </form>
-                </div>
+                <form action="http://localhost:5000/login" method="POST" className="container auth-form" id="login-form">
+                    <div className="form-group">
+                        <label htmlFor="login-form-username" className="form-label" >Username <span style={{color: "red"}}>*</span></label>
+                        <input type="text" name="username" className="form-control" style={{ border: "2px solid #555" }} id="login-form-username" placeholder="Username" />
+                        <span className="form-failure" id="login-form-username-error"></span>
+                        <small id="login-info" className="form-text text-muted">Standard users, login to leave comments and view your personal information. Administrators, login to additionally manage accounts and moderate blog posts.</small>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="login-form-password" className="form-label" >Password <span style={{color: "red"}}>*</span></label>
+                        <input type="password" name="password" className="form-control" style={{ border: "2px solid #555" }} id="login-form-password" placeholder="Password" />
+                        <span className="form-failure" id="login-form-password-error"></span>
+                    </div>
+                    <button type="submit" className="btn btn-dark" onClick={e => {e.preventDefault(); if (this.checkLoginForm()) this.props.handleSubmit(e);}}>Login</button>
+                </form>
             </div>
         );
     }
