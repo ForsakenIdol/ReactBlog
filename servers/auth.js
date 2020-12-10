@@ -127,3 +127,8 @@ auth.post('/login', (req, res) => {
     
   });
 });
+
+auth.post('/register', (req, res) => {
+  console.log(req.body);
+  return res.send({status: "success"});
+})
