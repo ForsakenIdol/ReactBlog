@@ -15,7 +15,15 @@ import BlogLogin from '../Pages/BlogLogin';
  */
 
 class Navbar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      logged_in: false
+    }
+  }
+
   render_auth(logged_in) {
+    console.log(this.state);
     if (!logged_in) return (
       <ul className="navbar-nav ml-auto" id="navlinks-right">
         <li className="nav-item"><Link to='/login'>Login</Link></li>
@@ -73,7 +81,7 @@ class Navbar extends React.Component {
               <li className="nav-item"><a href="https://forsakenidol.com/contact" target="_blank" rel="noreferrer">Contact</a></li>
               <li className="nav-item"><Link to='/'>Blog</Link></li>
             </ul>
-            {this.render_auth(this.props.logged_in)}
+            {this.render_auth(this.state.logged_in)}
           </div>
         </nav>
 

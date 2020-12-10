@@ -8,6 +8,6 @@ import ReactDOM from 'react-dom';
 import Navbar from './Components/Navbar';
 
 ReactDOM.render(
-    <Navbar logged_in={false}/>,
+    <Navbar />,
     document.getElementById('root')
 );
