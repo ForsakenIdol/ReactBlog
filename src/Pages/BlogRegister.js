@@ -13,7 +13,7 @@ export default class BlogRegister extends React.Component {
     render() {
         return (
             <div style={{marginTop: "7rem"}}>
-                <h1 style={{fontFamily: "'Sahitya', sans-serif", fontSize: "3rem", textAlign: "center", marginBottom: "3.5rem"}}>Register</h1>
+                <h1 className="form-title">Register</h1>
                 <div className="row">
                     
                 </div>

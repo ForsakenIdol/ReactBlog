@@ -39,7 +39,7 @@ export default class BlogLogin extends React.Component {
     render() {
         return (
             <div style={{marginTop: "7rem"}}>
-                <h1 style={{fontFamily: "'Sahitya', sans-serif", fontSize: "3rem", textAlign: "center", marginBottom: "3.5rem"}}>Login</h1>
+                <h1 className="form-title">Login</h1>
                 <div className="row">
                     <div className="col-3" />
                     <form action="http://localhost:5000/login" method="POST" className="col-6" id="login-form">
