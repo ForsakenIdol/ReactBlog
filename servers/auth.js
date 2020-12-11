@@ -190,3 +190,23 @@ auth.post('/register', (req, res) => {
     } else res.send({status: "failure", reason: "username", value: req.body.username});
   });
 });
+
+// Accepts both an access and a refresh token. Checks the validity of both tokens,
+// returns {access: status, refresh: status} where "status" is either "valid" or an error message.
+auth.post('/verify', (req, res) => {
+  let access;
+  if (req.body.accessToken) {
+    try {
+      jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET);
+      access = "valid";
+    } catch (error) { access = error; }
+  }
+  let refresh;
+  if (req.body.refreshToken) {
+    try {
+      jwt.verify(req.body.refreshToken, process.env.REFRESH_TOKEN_SECRET);
+      refresh = "valid";
+    } catch (error) { refresh = error; }
+  }
+  res.send({access: access, refresh: refresh});
+});
