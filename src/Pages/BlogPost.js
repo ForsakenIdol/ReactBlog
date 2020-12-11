@@ -25,11 +25,12 @@ class BlogPost extends React.Component {
     }
 
     componentDidMount() {
-        console.log("Blog post mounted!");
         this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
+        this.props.handleStatus();
     }
 
     render() {
+        console.log(this.props.children);
         console.log("Path id param: " + this.props.match.params.id);
         console.log(typeof(this.props.match.params.id));
         console.log(parseInt(this.props.match.params.id));

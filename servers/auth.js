@@ -66,7 +66,7 @@ let tempUsers = [
 let refreshTokens = [];
 
 let generateAccessToken = payload => {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10s" });
 }
 
 let generateRefreshToken = payload => {
@@ -134,7 +134,7 @@ auth.post('/refresh', (req, res) => {
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
     if (err) return res.send(err);
     console.log(payload);
-    return res.send(payload);
+    return res.send({token: generateAccessToken(payload)});
   });
 });
 

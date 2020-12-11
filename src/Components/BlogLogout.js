@@ -16,7 +16,7 @@ export default class BlogLogout extends React.Component {
         }).then(result => {
             if (result.status == "success") {
                 localStorage.clear();
-                this.props.handleStatus(false);
+                this.props.handleStatus();
             } else console.log(result);
         });
     }
