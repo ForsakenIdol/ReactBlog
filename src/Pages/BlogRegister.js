@@ -53,6 +53,19 @@ export default class BlogRegister extends React.Component {
         return errors === 0;
     }
 
+    handleRegisterFormSubmit(body) {
+        fetch("http://localhost:5000/register", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        }).then(response => {
+            if (!response.ok) throw new Error("Register response was not ok");
+            else return response.json();
+        }).then(result => {
+          console.log(result);
+        }).catch(error => console.log(error));
+      }
+
     componentDidMount() {
         $(".form-failure").hide(); // Hide all 4 form-failure spans at once
     }
@@ -94,7 +107,7 @@ export default class BlogRegister extends React.Component {
                                     email: $("#register-form-email").val(),
                                     password: $("#register-form-password").val()
                                 }
-                                this.props.handleSubmit(body);
+                                this.handleRegisterFormSubmit(body);
                             }
                         }
                     }>Register</button>

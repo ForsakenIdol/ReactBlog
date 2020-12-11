@@ -100,19 +100,6 @@ class Navbar extends React.Component {
     else this.setState({logged_in: false});
   }
 
-  handleRegisterFormSubmit(body) {
-    fetch("http://localhost:5000/register", {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(body)
-    }).then(response => {
-        if (!response.ok) throw new Error("Register response was not ok");
-        else return response.json();
-    }).then(result => {
-      console.log(result);
-    }).catch(error => console.log(error));
-  }
-
   /* Render Function */
 
   render() {
@@ -144,7 +131,7 @@ class Navbar extends React.Component {
             {this.state.logged_in ? <Redirect to='/' /> : <BlogLogin handleStatus={this.handleStatus.bind(this)}/>}
           </Route>
           <Route path='/register' >
-            {this.state.logged_in ? <Redirect to='/' /> : <BlogRegister handleSubmit={() => {this.handleRegisterFormSubmit()}}/>}
+            {this.state.logged_in ? <Redirect to='/' /> : <BlogRegister />}
           </Route>
           <Route path='/profile'>
             {this.state.logged_in ? <BlogProfile handleStatus={this.handleStatus.bind(this)} /> : <Redirect to='/login' />}
