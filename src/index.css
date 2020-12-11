@@ -239,3 +239,15 @@ span.form-failure {
     color: red;
     margin-top: 0.25rem;
 }
+
+button.logout {
+    background: none;
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: 250ms;
+}
+
+button.logout:hover {
+    color: grey;
+}

@@ -6,6 +6,7 @@ import BlogPost from '../Pages/BlogPost';
 import BlogAbout from '../Pages/BlogAbout';
 import BlogLogin from '../Pages/BlogLogin';
 import BlogRegister from '../Pages/BlogRegister';
+import BlogLogout from '../Components/BlogLogout';
 
 /*
  * ~~~~~~~~~~ Great React Router Pages ~~~~~~~~~~
@@ -34,25 +35,15 @@ class Navbar extends React.Component {
     else return (
       <ul className="navbar-nav ml-auto" id="navlinks-right">
         <li className="nav-item"><Link to='/profile'>Profile</Link></li>
-        <li className="nav-item"><Link to='/logout'>Logout</Link></li>
+        <li className="nav-item"><BlogLogout handleStatus={this.handleStatus.bind(this)}/></li>
       </ul>
     );
   }
 
   /* Prop Functions */
 
-  handleStatus(result) {
-    console.log("Login result below.");
-        console.log(result);
-        // Here, we would store both the access and the refresh tokens received from the auth server in memory.
-        if (!result.result) {
-          // Put refresh token in storage (we only have to worry about a single refresh token on the client side per login "session")
-          localStorage.setItem("refreshToken", result.refreshToken);
-          localStorage.setItem("accessToken", result.accessToken);
-          console.log(localStorage);
-          
-          this.setState({logged_in: true});
-        }
+  handleStatus(status) {
+    status ? this.setState({logged_in: true}) : this.setState({logged_in: false});
   }
 
   handleRegisterFormSubmit(body) {

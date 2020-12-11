@@ -138,6 +138,22 @@ auth.post('/refresh', (req, res) => {
   });
 });
 
+auth.delete('/logout', (req, res) => {
+  console.log(req.body);
+  jwt.verify(req.body.token, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+    // The error is called if the token is not valid.
+    if (err) res.send({status: "error", error: err});
+    else {
+      // We do a second check to see if we were tracking this refresh token in the first place.
+      let i = refreshTokens.indexOf(req.body.token);
+      if (i >= 0) {
+        refreshTokens.splice(i, 1);
+        res.send({status: "success"});
+      } else res.send({status: "failure"});
+    }
+  });
+});
+
 auth.post('/register', (req, res) => {
   console.log(req.body);
   return res.send([{status: "success"}, req.body]);

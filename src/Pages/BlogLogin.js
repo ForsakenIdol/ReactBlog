@@ -71,7 +71,14 @@ export default class BlogLogin extends React.Component {
                                     else return response.json();
                                 }).then(result => {
                                     console.log(result);
-                                    this.props.handleStatus(result);
+                                    // Set tokens in localStorage
+                                    if (!result.result) {
+                                        // Put refresh token in storage (we only have to worry about a single refresh token on the client side per login "session")
+                                        localStorage.setItem("refreshToken", result.refreshToken);
+                                        localStorage.setItem("accessToken", result.accessToken);
+                                        console.log(localStorage);
+                                      }
+                                    this.props.handleStatus(true);
                                 }).catch(error => {
                                     console.log(error);
                                     return error;
