@@ -29,7 +29,6 @@ export default class BlogLogin extends React.Component {
 
         return errors === 0;
     }
-
     componentDidMount() {
         // Hide error fields on page load
         $("#login-form-username-error").hide();
@@ -59,12 +58,26 @@ export default class BlogLogin extends React.Component {
                                 let body = {
                                     username: document.getElementById("login-form-username").value,
                                     password: document.getElementById("login-form-password").value
-                                  };
-                                this.props.handleSubmit(body);
-                                
+                                };
+                                fetch("http://localhost:5000/login", {
+                                    method: 'POST',
+                                    headers: {'Content-Type': 'application/json'},
+                                    body: JSON.stringify(body)
+                                }).then(response => {
+                                    if (!response.ok) {
+                                    console.log(response);
+                                    throw new Error("Login response was not ok");
+                                    }
+                                    else return response.json();
+                                }).then(result => {
+                                    console.log(result);
+                                    this.props.handleStatus(result);
+                                }).catch(error => {
+                                    console.log(error);
+                                    return error;
+                                });
                             }
-                        }
-                    }>Login</button>
+                        }}>Login</button>
                 </form>
             </div>
         );

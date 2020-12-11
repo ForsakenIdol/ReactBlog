@@ -18,11 +18,11 @@ dotenv.config({ path: path.resolve(__dirname + "/../src/private/config.env") });
 
 // Create the connection to our MySQL database
 const db = mysql.createConnection({
-  host: process.env.MYSQLDIGITALOCEANHOST,
-  user: process.env.MYSQLDIGITALOCEANUSER,
-  password: process.env.MYSQLDIGITALOCEANPWD,
+  host: process.env.LOCALHOST,
+  user: process.env.LOCALUSER,
+  password: process.env.LOCALPWD,
   database: process.env.MYSQLDB,
-  port: process.env.MYSQLDIGITALOCEANPORT
+  port: process.env.LOCALPORT
 });
 
 /* Setting up the port for our application */
@@ -42,10 +42,7 @@ app.get('/api/blog/posts', (req, res) => {
     if (err) {
       console.log("Error!");
       res.send(err);
-    } else {
-      console.log(result.length);
-      res.send(result);
-    }
+    } else res.send(result);
   });
 });
 
@@ -80,7 +77,6 @@ app.get('/api/blog/posts/:id', (req, res) => {
       console.log("Error!");
       res.send(err);
     } else {
-      console.log(post);
       db.query("SELECT * FROM comment WHERE post_id = ?;", [req.params.id], (err, comments, fields) => {
         if (err) {
           console.log("Error!");
@@ -91,10 +87,7 @@ app.get('/api/blog/posts/:id', (req, res) => {
             if (err) {
               console.log("Error!");
               res.send(err);
-            } else {
-              console.log(user);
-              res.send([post[0], comments, user[0]]);
-            }
+            } else res.send([post[0], comments, user[0]]);
           });
         }
       });

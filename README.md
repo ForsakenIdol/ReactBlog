@@ -20,7 +20,6 @@ I've made a concerted effort to modularize as many components as possible, and w
 
 This TODO list staggers items as I feel they can be done together.
 
-- Register form frontend and client-sided form validation.
 - Figure out how to pass jwt tokens in the request body.
 - Auth server `/refresh` route (Validates the refresh token and provide a new access token if valid.)
 - Auth server `/logout` route (Removes the provided refresh token from the database, and also deletes the access token from the client side if possible.)

@@ -41,16 +41,8 @@ class Navbar extends React.Component {
 
   /* Prop Functions */
 
-  loginFormSubmit(body) {
-    fetch("http://localhost:5000/login", {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(body)
-    }).then(response => {
-        if (!response.ok) throw new Error("Login response was not ok");
-        else return response.json();
-    }).then(result => {
-        console.log("Login result below.");
+  handleStatus(result) {
+    console.log("Login result below.");
         console.log(result);
         // Here, we would store both the access and the refresh tokens received from the auth server in memory.
         if (!result.result) {
@@ -58,12 +50,12 @@ class Navbar extends React.Component {
           localStorage.setItem("refreshToken", result.refreshToken);
           localStorage.setItem("accessToken", result.accessToken);
           console.log(localStorage);
+          
           this.setState({logged_in: true});
         }
-    }).catch(error => console.log(error));
   }
 
-  registerFormSubmit(body) {
+  handleRegisterFormSubmit(body) {
     fetch("http://localhost:5000/register", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -104,10 +96,10 @@ class Navbar extends React.Component {
           <Route path='/post/:id' component={BlogPost} />
           <Route path='/about' component={BlogAbout} />
           <Route path='/login' >
-            {this.state.logged_in ? <Redirect to='/' /> : <BlogLogin handleSubmit={this.loginFormSubmit}/>}
+            {this.state.logged_in ? <Redirect to='/' /> : <BlogLogin handleStatus={this.handleStatus.bind(this)}/>}
           </Route>
           <Route path='/register' >
-            {this.state.logged_in ? <Redirect to='/' /> : <BlogRegister handleSubmit={this.registerFormSubmit}/>}
+            {this.state.logged_in ? <Redirect to='/' /> : <BlogRegister handleSubmit={() => {this.handleRegisterFormSubmit()}}/>}
           </Route>
           <Route path='/' component={BlogHome} />
         </Switch>

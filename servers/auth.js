@@ -7,7 +7,6 @@ const dotenv = require('dotenv');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const { randomBytes } = require('crypto');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
@@ -21,11 +20,11 @@ dotenv.config({ path: path.resolve(__dirname + "/../src/private/config.env") });
 
 // Create the connection to our MySQL database
 const db = mysql.createConnection({
-  host: process.env.MYSQLDIGITALOCEANHOST,
-  user: process.env.MYSQLDIGITALOCEANUSER,
-  password: process.env.MYSQLDIGITALOCEANPWD,
+  host: process.env.LOCALHOST,
+  user: process.env.LOCALUSER,
+  password: process.env.LOCALPWD,
   database: process.env.MYSQLDB,
-  port: process.env.MYSQLDIGITALOCEANPORT
+  port: process.env.LOCALPORT
 });
 
 /* Setting up the port for our application */
@@ -63,6 +62,9 @@ let tempUsers = [
   }
 ]
 
+// This is a temporary construct for holding refresh tokens. Replace this with the refreshTokens table in my database!
+let refreshTokens = [];
+
 let generateAccessToken = payload => {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
 }
@@ -72,10 +74,6 @@ let generateRefreshToken = payload => {
 }
 
 /* Authentication Paths */
-
-auth.get('/randombytes/:i', (req, res) => {
-  res.send(randomBytes(parseInt(req.params.i)).toString("hex"));
-});
 
 auth.get('/bcrypttest', (req, res) => {
   let user = tempUsers[1];
@@ -90,13 +88,12 @@ auth.get('/bcrypttest', (req, res) => {
 
 auth.post('/login', (req, res) => {
   console.log("Posted to login route!");
-  if (!req.body.username) return res.status(400).send({missing: "username"});
-  if (!req.body.password) return res.status(400).send({missing: "password"});
-
+  console.log(req.body); // Remove later!
+  if (!req.body.username) return res.send({status: "error", missing: "username"});
+  if (!req.body.password) return res.send({status: "error", missing: "password"});
   // Search for the user in the database
   db.query("SELECT * FROM user WHERE username=?;", [req.body.username], (err, result, fields) => {
     if (err) return res.send(err);
-    console.log(result);
     if (result.length > 0) {
       // Check password
       bcrypt.compare(req.body.password, result[0].password_hash, (err, same) => {
@@ -114,9 +111,10 @@ auth.post('/login', (req, res) => {
               email: user.email,
               access: access
             };
-            console.log(payload);
             let refreshToken = generateRefreshToken(payload);
             // Ideally, here we would store the refresh token in a MySQL table before sending both tokens to the user.
+            // What we'll do here temporarily is store the refresh token in a simple object.
+            refreshTokens.push(refreshToken);
             // Send tokens to user
             res.send({accessToken: generateAccessToken(payload), refreshToken: refreshToken});
           });
@@ -125,6 +123,18 @@ auth.post('/login', (req, res) => {
     } else return res.send({result: "error", cause: "username"}); // No user with that username
     //let user = tempUsers[1];
     
+  });
+});
+
+// Checks and validates the refresh token before generating a new access token for the user.
+auth.post('/refresh', (req, res) => {
+  const refreshToken = req.body ? req.body.token : null;
+  if (refreshToken == null) res.status(401).send({error: "notoken"});
+  if (!refreshTokens.includes(refreshToken)) res.status(403).send({error: "invalidtoken"});
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+    if (err) return res.send(err);
+    console.log(payload);
+    return res.send(payload);
   });
 });
 
