@@ -20,7 +20,6 @@ I've made a concerted effort to modularize as many components as possible, and w
 
 This TODO list staggers items as I feel they can be done together.
 
-- Figure out how to pass jwt tokens in the request body.
-- Auth server `/refresh` route (Validates the refresh token and provide a new access token if valid.)
-- Auth server `/logout` route (Removes the provided refresh token from the database, and also deletes the access token from the client side if possible.)
 - Register form backend functionality.
+- Shift some of the `handleStatus()` Navbar function logic into a `/verify` route on the `auth` server, so we don't have to hardcode environment variables.
+- Administrator delete posts and comments functionality.
