@@ -67,6 +67,7 @@ class BlogHome extends React.Component {
                     images={this.state ? this.state.images : []}
                     links={this.state ? this.state.links : []}
                 />
+                <p className="container" style={{marginBottom: "3rem"}}>Looking for the old blog layout? It's <a href="https://forsakenidol.com/blog">here</a>.</p>
             </div>
         );
     }
