@@ -16,14 +16,25 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 dotenv.config({ path: path.resolve(__dirname + "/../src/private/config.env") }); // Load environmental variables
 
-// Create the connection to our MySQL database
-const db = mysql.createConnection({
+const localCredentials = {
   host: process.env.LOCALHOST,
   user: process.env.LOCALUSER,
   password: process.env.LOCALPWD,
   database: process.env.MYSQLDB,
   port: process.env.LOCALPORT
-});
+}
+
+const remoteCredentials = {
+  host: process.env.MYSQLDIGITALOCEANHOST,
+  user: process.env.MYSQLDIGITALOCEANUSER,
+  password: process.env.MYSQLDIGITALOCEANPWD,
+  database: process.env.MYSQLDB,
+  port: process.env.MYSQLDIGITALOCEANPORT
+}
+
+// Create the connection to our MySQL database
+const db = mysql.createConnection(remoteCredentials); 
+
 
 /* Setting up the port for our application */
 const port = 8080;

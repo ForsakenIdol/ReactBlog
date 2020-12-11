@@ -18,14 +18,24 @@ auth.use(bodyParser.urlencoded({extended: false}));
 auth.use(bodyParser.json());
 dotenv.config({ path: path.resolve(__dirname + "/../src/private/config.env") }); // Load environmental variables
 
-// Create the connection to our MySQL database
-const db = mysql.createConnection({
+const localCredentials = {
   host: process.env.LOCALHOST,
   user: process.env.LOCALUSER,
   password: process.env.LOCALPWD,
   database: process.env.MYSQLDB,
   port: process.env.LOCALPORT
-});
+}
+
+const remoteCredentials = {
+  host: process.env.MYSQLDIGITALOCEANHOST,
+  user: process.env.MYSQLDIGITALOCEANUSER,
+  password: process.env.MYSQLDIGITALOCEANPWD,
+  database: process.env.MYSQLDB,
+  port: process.env.MYSQLDIGITALOCEANPORT
+}
+
+// Create the connection to our MySQL database
+const db = mysql.createConnection(remoteCredentials);
 
 /* Setting up the port for our application */
 const port = 5000;
@@ -155,6 +165,28 @@ auth.delete('/logout', (req, res) => {
 });
 
 auth.post('/register', (req, res) => {
-  console.log(req.body);
-  return res.send([{status: "success"}, req.body]);
+  // Check if username has been taken
+  db.query("SELECT * FROM user WHERE username=?;", [req.body.username], (err, result, fields) => {
+    if (err) return res.send({status: "error", error: err});
+    if (result.length == 0) {
+      // Check if email has been taken
+      db.query("SELECT * FROM user WHERE email=?;", [req.body.email], async (err, row, fields) => {
+        if (err) return res.send({status: "error", error: err});
+        if (row.length == 0) {
+          // Both checks passed, hash password and insert user into database
+          let passwordHash = await bcrypt.hash(req.body.password, 10);
+          let accessHash = await bcrypt.hash(process.env.ACCESS1, 10);
+          if (passwordHash) {
+            // Insert user into database
+            let parameters = [req.body.username, req.body.email, passwordHash, accessHash];
+            db.query("INSERT INTO user(username, email, password_hash, access_hash) VALUES(?, ?, ?, ?)",
+            parameters, (err, result, fields) => {
+              if (err) res.send({status: "error", error: err});
+              else res.send({status: "success", parameters: parameters});
+            });
+          }
+        } else res.send({status: "failure", reason: "email", value: req.body.email});
+      });
+    } else res.send({status: "failure", reason: "username", value: req.body.username});
+  });
 });

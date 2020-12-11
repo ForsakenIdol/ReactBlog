@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 
 export default class BlogRegister extends React.Component {
+
     checkRegisterForm() {
         var registerUsernameError = "Please enter a username.";
         var registerEmailErrorEmpty = "Please enter an email address.";
@@ -63,11 +64,42 @@ export default class BlogRegister extends React.Component {
             else return response.json();
         }).then(result => {
           console.log(result);
+          if (result.status === "success") {
+            $("input").val("");
+            $("#register-form-success").text("Registered successfully! You may now login using the login page.");
+            $("#register-form-success").fadeToggle(500);
+            setTimeout(() => {$("#register-form-success").fadeToggle(500);}, 5000);
+          } else if (result.status === "failure") {
+              console.log(result.reason);
+              switch (result.reason) {
+                  case "username":
+                    $("#register-form-failure").text("That username has already been taken.");
+                    $("#register-form-failure").fadeToggle(500);
+                    setTimeout(() => {$("#register-form-failure").fadeToggle(500);}, 3000);
+                    break;
+                  case "email":
+                    $("#register-form-failure").text("That email has already been taken.");
+                    $("#register-form-failure").fadeToggle(500);
+                    setTimeout(() => {$("#register-form-failure").fadeToggle(500);}, 3000);
+                    break;
+                  default:
+                    $("#register-form-failure").text("An unexpected error occured. Please try again later.");
+                    $("#register-form-failure").fadeToggle(500);
+                    setTimeout(() => {$("#register-form-failure").fadeToggle(500);}, 3000);
+                    break;
+              }
+          } else {
+            $("#register-form-failure").text("An unexpected error occured. Please try again later.");
+            $("#register-form-failure").fadeToggle(500);
+            setTimeout(() => {$("#register-form-failure").fadeToggle(500);}, 3000);
+          }
         }).catch(error => console.log(error));
       }
 
     componentDidMount() {
         $(".form-failure").hide(); // Hide all 4 form-failure spans at once
+        $("#register-form-success").hide();
+        $("#register-form-failure").hide();
     }
     
     render() {
@@ -111,6 +143,8 @@ export default class BlogRegister extends React.Component {
                             }
                         }
                     }>Register</button>
+                    <span className="form-failure" style={{color: "green"}} id ="register-form-success"></span>
+                    <span className="form-failure" id="register-form-failure"></span>
                 </form>
             </div>
         );
