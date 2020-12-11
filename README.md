@@ -20,5 +20,6 @@ I've made a concerted effort to modularize as many components as possible, and w
 
 This TODO list staggers items as I feel they can be done together.
 
-- Shift some of the `handleStatus()` Navbar function logic into a `/verify` route on the `auth` server, so we don't have to hardcode environment variables.
+- User profile page.
 - Administrator delete posts and comments functionality.
+- Fix blog date formatting.
