@@ -121,7 +121,7 @@ class Navbar extends React.Component {
           // which matches that particular variable (ID for posts)
           }
           <Route path='/post/:id' render={props => <BlogPost {...props} handleStatus={this.handleStatus.bind(this)} />} />
-          <Route path='/about' component={BlogAbout} />
+          <Route path='/about' render={props => <BlogAbout {...props} handleStatus={this.handleStatus.bind(this)} />} />
           <Route path='/login' >
             {this.state.logged_in ? <Redirect to='/' /> : <BlogLogin handleStatus={this.handleStatus.bind(this)}/>}
           </Route>
@@ -131,7 +131,7 @@ class Navbar extends React.Component {
           <Route path='/profile'>
             {this.state.logged_in ? <BlogProfile handleStatus={this.handleStatus.bind(this)} /> : <Redirect to='/login' />}
           </Route>
-          <Route path='/' component={BlogHome} />
+          <Route path='/' render={props => <BlogHome {...props} handleStatus={this.handleStatus.bind(this)} />} />
         </Switch>
       </Router>
     );

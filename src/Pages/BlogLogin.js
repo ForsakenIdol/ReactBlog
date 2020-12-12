@@ -31,8 +31,7 @@ export default class BlogLogin extends React.Component {
     }
     componentDidMount() {
         // Hide error fields on page load
-        $("#login-form-username-error").hide();
-        $("#login-form-password-error").hide();
+        $(".form-failure").hide();
     }
 
     render() {
@@ -75,6 +74,11 @@ export default class BlogLogin extends React.Component {
                                         // Put refresh token in storage (we only have to worry about a single refresh token on the client side per login "session")
                                         localStorage.setItem("refreshToken", result.refreshToken);
                                         localStorage.setItem("accessToken", result.accessToken);
+                                      } else {
+                                          // At least 1 field is incorrect.
+                                          $("#login-form-failure").text("Username or password was incorrect.");
+                                          $("#login-form-failure").fadeToggle(500);
+                                          setTimeout(() => {$("#login-form-failure").fadeToggle(500);}, 3000);
                                       }
                                     console.log("Login attempted, updating status...");
                                     this.props.handleStatus();
@@ -84,6 +88,7 @@ export default class BlogLogin extends React.Component {
                                 });
                             }
                         }}>Login</button>
+                        <span className="form-failure" id="login-form-failure"></span>
                 </form>
             </div>
         );
