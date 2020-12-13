@@ -10,7 +10,7 @@ export default class BlogAbout extends Component {
                 <h1>About</h1>
                 <hr className={hrclass} style={{marginBottom: "4rem", height: "0.15rem", width: "3%"}} color="#555" />
                 <p style={{fontSize: "1.5rem"}} >
-                    "Reviews are the most powerful part of any project, and provide the most information."
+                    Looking for the old blog layout? It's at my <a href="https://forsakenidol.com/blog" target="_blank" rel="noreferrer" class="inline-link">main</a> page.
                 </p>
                 <hr className={hrclass} style={{marginTop: "4rem", marginBottom: "3rem", height: "0.1rem", width: "3%"}} color="#555" />
                 <div className="container description" style={{textAlign: "center"}} >

@@ -98,7 +98,6 @@ auth.get('/bcrypttest', (req, res) => {
 
 auth.post('/login', (req, res) => {
   console.log("Posted to login route!");
-  console.log(req.body); // Remove later!
   if (!req.body.username) return res.send({status: "error", missing: "username"});
   if (!req.body.password) return res.send({status: "error", missing: "password"});
   // Search for the user in the database
@@ -216,8 +215,23 @@ auth.post('/statistics', (req, res) => {
   if (req.body.accessToken) jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     console.log(err);
     console.log(payload);
-    if (err) return res.send({result: "error", reason: "invalidtoken"});
-    else return res.send({result: "temporary", reason: "unfinished"});
+    if (err) return res.send({result: "error", reason: "invalid_token"});
+    // Get number of posts
+    else db.query("SELECT numposts FROM (SELECT user_id, COUNT(*) AS numposts FROM post GROUP BY user_id) AS A WHERE user_id = ?;", [payload.id], (err, posts, fields) => {
+      if (err) return res.send({result: "error", reason: "post_query_failure"});
+      else {
+        // Get number of comments
+        db.query("SELECT COUNT(*) AS numcomments FROM comment GROUP BY username HAVING username=?;", [payload.username], (err, comments, fields) => {
+          if (err) return res.send({result: "error", reason: "comment_query_failure"});
+          else return res.send({
+            result: "success", id: payload.id, username: payload.username, email: payload.email,
+            numposts: posts[0] ? posts[0].numposts : 0,
+            numcomments: comments[0] ? comments[0].numcomments : 0
+          });
+        });
+      }
+    });
+
   });
-   else return res.send({result: "error", reason: "notoken"});
+  else return res.send({result: "error", reason: "no_token"});
 });

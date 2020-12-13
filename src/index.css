@@ -9,11 +9,11 @@ html {
 
 /* Sections */
 
-div.blog-home {
+div.blog-home, div.blog-profile {
     font-family: 'Sahitya', serif;
 }
 
-div.title-card {
+div.title-card, div.blog-profile {
     text-align: center;
     padding: 7rem 0;
 }
@@ -83,13 +83,31 @@ div.comment-box {
     margin-bottom: 5rem;
 }
 
+div.profile-standout {
+    display: inline-flex;
+    color: white;
+    background: #333;
+    margin: 5rem 0 5rem;
+    padding: 1rem 3rem;
+    border-radius: 1rem;
+    max-width: 40rem;
+}
+
+table td {
+    text-align: left;
+}
+
+table th {
+    text-align: right;
+}
+
 /* Headers */
 
 h1 {
     text-transform: uppercase;
 }
 
-div.title-card h1 {
+div.title-card h1, div.blog-profile h1 {
     font-size: 4rem;
     font-weight: normal;
     margin-bottom: 1rem;
@@ -249,5 +267,16 @@ button.logout {
 }
 
 button.logout:hover {
+    color: grey;
+}
+
+a.inline-link {
+    color: black;
+    font-weight: bold;
+    transition: 250ms;
+}
+
+a.inline-link:hover {
+    text-decoration: none;
     color: grey;
 }
