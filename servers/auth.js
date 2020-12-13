@@ -210,3 +210,14 @@ auth.post('/verify', (req, res) => {
   }
   res.send({access: access, refresh: refresh});
 });
+
+// Given an access token, verifies the token and returns as many stats as possible regarding the user.
+auth.post('/statistics', (req, res) => {
+  if (req.body.accessToken) jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+    console.log(err);
+    console.log(payload);
+    if (err) return res.send({result: "error", reason: "invalidtoken"});
+    else return res.send({result: "temporary", reason: "unfinished"});
+  });
+   else return res.send({result: "error", reason: "notoken"});
+});
