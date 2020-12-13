@@ -14,8 +14,6 @@ class BlogPost extends React.Component {
             }
             return response.json();
         }).then(result => {
-            console.log(result[0]);
-            console.log(result[1]);
             this.setState({
                 post: result[0],
                 comments: result[1],
@@ -30,15 +28,11 @@ class BlogPost extends React.Component {
     }
 
     render() {
-        console.log(this.props.children);
-        console.log("Path id param: " + this.props.match.params.id);
-        console.log(typeof(this.props.match.params.id));
-        console.log(parseInt(this.props.match.params.id));
         return (
             <div className="blog-post">
-                <BlogBox post={this.state ? this.state.post : ""} author={this.state ? this.state.author : ""}/>
+                <BlogBox post={this.state ? this.state.post : []} author={this.state ? this.state.author : ""}/>
                 <CommentForm />
-                <CommentBox comments={this.state ? this.state.comments: ""} />
+                <CommentBox comments={this.state ? this.state.comments: []} />
             </div>
         );
     }   
