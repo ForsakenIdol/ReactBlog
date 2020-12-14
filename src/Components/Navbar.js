@@ -43,10 +43,7 @@ class Navbar extends React.Component {
     );
   }
 
-  /* Prop Functions */
-
   handleStatus() {
-    console.log("Fetching verify status...");
     fetch("http://localhost:5000/verify", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
@@ -58,8 +55,6 @@ class Navbar extends React.Component {
       if (!response.ok) throw new Error("Verify response was not ok.");
       return response.json();
     }).then(result => {
-      console.log("Result received!");
-      console.log(result);
       if (result.refresh !== "valid") this.setState({logged_in: false});
       else if (result.access !== "valid") {
         // Attempt to request and store a new token
@@ -74,11 +69,7 @@ class Navbar extends React.Component {
             localStorage.clear();
             throw new Error("Refresh response was not ok");
           }
-          else {
-            console.log("Raw response below.");
-            console.log(response);
-            return response.json();
-          }
+          else return response.json();
         }).then(result => {
           console.log("Received a response from the refresh route as below.");
           console.log(result);
@@ -94,6 +85,8 @@ class Navbar extends React.Component {
       } else this.setState({logged_in: true});
     }).catch(error => console.log(error));
   }
+
+  componentDidMount() {this.handleStatus(); setInterval(() => {this.handleStatus();}, 10000)};
 
   /* Render Function */
 
@@ -117,8 +110,8 @@ class Navbar extends React.Component {
 
         <Switch>
           {
-          // This will need some logic which identifies variables in the path URL and uses them to request the blog data
-          // which matches that particular variable (ID for posts)
+          // For routes which load user information, they need to call handleStatus to ensure that the access token
+          // currently in storage is still valid.
           }
           <Route path='/post/:id' render={props => <BlogPost {...props} handleStatus={this.handleStatus.bind(this)} />} />
           <Route path='/about' render={props => <BlogAbout {...props} handleStatus={this.handleStatus.bind(this)} />} />

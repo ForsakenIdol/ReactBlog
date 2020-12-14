@@ -35,7 +35,7 @@ const remoteCredentials = {
 }
 
 // Create the connection to our MySQL database
-const db = mysql.createConnection(remoteCredentials);
+const db = mysql.createConnection(localCredentials);
 
 /* Setting up the port for our application */
 const port = 5000;
@@ -129,21 +129,24 @@ auth.post('/login', (req, res) => {
           });
         } else return res.send({result: "error", cause: "password"}); // Password incorrect
       }); 
-    } else return res.send({result: "error", cause: "username"}); // No user with that username
-    //let user = tempUsers[1];
-    
+    } else return res.send({result: "error", cause: "username"}); // No user with that username    
   });
 });
 
 // Checks and validates the refresh token before generating a new access token for the user.
 auth.post('/refresh', (req, res) => {
   const refreshToken = req.body ? req.body.token : null;
-  if (refreshToken == null) res.status(401).send({error: "notoken"});
-  if (!refreshTokens.includes(refreshToken)) res.status(403).send({error: "invalidtoken"});
+  if (refreshToken == null) res.send({error: "notoken"});
+  if (!refreshTokens.includes(refreshToken)) res.send({error: "invalidtoken"});
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
     if (err) return res.send(err);
-    console.log(payload);
-    return res.send({token: generateAccessToken(payload)});
+    let newPayload = {
+      id: payload.id,
+      username: payload.username,
+      email: payload.email
+    }
+    console.log(newPayload);
+    return res.send({token: generateAccessToken(newPayload)});
   });
 });
 
@@ -215,7 +218,7 @@ auth.post('/statistics', (req, res) => {
   if (req.body.accessToken) jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     console.log(err);
     console.log(payload);
-    if (err) return res.send({result: "error", reason: "invalid_token"});
+    if (err) return res.send({result: "error", reason: "invalid_access_token"});
     // Get number of posts
     else db.query("SELECT numposts FROM (SELECT user_id, COUNT(*) AS numposts FROM post GROUP BY user_id) AS A WHERE user_id = ?;", [payload.id], (err, posts, fields) => {
       if (err) return res.send({result: "error", reason: "post_query_failure"});

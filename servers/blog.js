@@ -33,7 +33,7 @@ const remoteCredentials = {
 }
 
 // Create the connection to our MySQL database
-const db = mysql.createConnection(remoteCredentials); 
+const db = mysql.createConnection(localCredentials); 
 
 
 /* Setting up the port for our application */
