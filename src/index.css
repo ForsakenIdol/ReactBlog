@@ -13,7 +13,7 @@ div.blog-home, div.blog-profile {
     font-family: 'Sahitya', serif;
 }
 
-div.title-card, div.blog-profile {
+div.title-card {
     text-align: center;
     padding: 7rem 0;
 }
@@ -62,6 +62,18 @@ div.description {
     margin-bottom: 5rem;
 }
 
+div.blog-profile {
+    text-align: center;
+    padding-top: 7rem;
+}
+
+@media (min-width: 992px) {
+    div.blog-profile {
+        padding-left: 15rem;
+        padding-right: 15rem;
+    }
+}
+
 @media (min-width: 576px) {
     div.description {
         display: flex;
@@ -85,7 +97,6 @@ div.comment-box {
 }
 
 div.profile-standout {
-    display: inline-flex;
     color: white;
     background: #333;
     margin: 5rem 0 5rem;
