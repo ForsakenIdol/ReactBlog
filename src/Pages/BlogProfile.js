@@ -2,9 +2,6 @@ import { Component } from 'react';
 import $ from 'jquery';
 
 export default class BlogProfile extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
         this.props.handleStatus();
