@@ -32,7 +32,7 @@ function CommentForm(props) {
                         .then(result => {
                             console.log(result);
                             if (result.status === "success") {
-                                $("#add-comment-content").text('');
+                                $("#add-comment-content").val('');
                                 $("#add-comment-success").hide();
                                 $("#add-comment-success").text("Comment posted successfully!");
                                 $("#add-comment-success").fadeToggle(500);
