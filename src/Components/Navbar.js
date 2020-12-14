@@ -44,6 +44,7 @@ class Navbar extends React.Component {
   }
 
   handleStatus() {
+    console.log("Handling status...");
     fetch("http://localhost:5000/verify", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
@@ -58,7 +59,7 @@ class Navbar extends React.Component {
       if (result.refresh !== "valid") this.setState({logged_in: false});
       else if (result.access !== "valid") {
         // Attempt to request and store a new token
-        console.log("Access token expired, but refresh token is still valid. We now need to request a new access token.");
+        //console.log("Access token expired, but refresh token is still valid. We now need to request a new access token.");
         fetch("http://localhost:5000/refresh", {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
@@ -71,8 +72,6 @@ class Navbar extends React.Component {
           }
           else return response.json();
         }).then(result => {
-          console.log("Received a response from the refresh route as below.");
-          console.log(result);
           // Check result and set logged_in state
           if (result.error) {
             localStorage.clear();
@@ -114,7 +113,7 @@ class Navbar extends React.Component {
           // currently in storage is still valid.
           }
           <Route path='/post/:id' render={props => <BlogPost {...props} handleStatus={this.handleStatus.bind(this)} />} />
-          <Route path='/about' render={props => <BlogAbout {...props} handleStatus={this.handleStatus.bind(this)} />} />
+          <Route path='/about' render={props => <BlogAbout {...props} />} />
           <Route path='/login' >
             {this.state.logged_in ? <Redirect to='/profile' /> : <BlogLogin handleStatus={this.handleStatus.bind(this)}/>}
           </Route>
@@ -124,7 +123,7 @@ class Navbar extends React.Component {
           <Route path='/profile'>
             {this.state.logged_in ? <BlogProfile handleStatus={this.handleStatus.bind(this)} /> : <Redirect to='/login' />}
           </Route>
-          <Route path='/' render={props => <BlogHome {...props} handleStatus={this.handleStatus.bind(this)} />} />
+          <Route path='/' render={props => <BlogHome {...props}/>} />
         </Switch>
       </Router>
     );

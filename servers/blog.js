@@ -93,7 +93,6 @@ app.get('/api/blog/posts/:id', (req, res) => {
           console.log("Error!");
           res.send(err);
         } else {
-          console.log(comments);
           db.query("SELECT username FROM user WHERE id = ?;", [post[0].user_id], (err, user, fields) => {
             if (err) {
               console.log("Error!");
@@ -108,11 +107,4 @@ app.get('/api/blog/posts/:id', (req, res) => {
 
 app.get('*', (req, res) => {
   res.send("This route matches all routes not accounted for on this server.");
-});
-
-// This route will temporarily handle posting of the comment form.
-app.post('/', (req, res) => {
-  console.log(req.body);
-  console.log("Posted");
-  res.redirect(301, "http://localhost:3000/");
 });

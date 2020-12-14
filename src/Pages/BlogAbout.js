@@ -1,8 +1,5 @@
 import { Component } from 'react';
 export default class BlogAbout extends Component {
-
-    componentDidMount() {this.props.handleStatus();}
-
     render() {
         let hrclass = "";
         return (

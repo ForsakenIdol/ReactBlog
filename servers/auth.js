@@ -1,5 +1,5 @@
 /*
-* This server handles authentication with JSON Web Tokens.
+* This server handles authentication and authenticated routes with JSON Web Tokens.
 */
 
 const mysql = require('mysql');
@@ -46,31 +46,6 @@ const server = auth.listen(port, () => {
     else console.log("Connected to MYSQL!");
   });
 });
-
-// Put these secrets into the config.env file manually
-let ACCESS_TOKEN_SECRET = "cfacd1ca6ef54c01adefe522d56ed668bfcd8db73f7d43426fa0787ec8284c807ed16ca1b296f39e8def9011bc2825dd1d41e7fc63ef363d1ad4346418a721e1";
-let REFRESH_TOKEN_SECRET = "e3f71fdf637bff5f647a56b01c09d78e0367768c96e1ed8d6e39e73047a375abcc92ad47587f77f170d2e96db9641f0d2f225d4aa60eee540defddcd3ac0bd88";
-
-// This data is not to be used unless the database is not available.
-let tempUsers = [
-  {
-    id: 1,
-    username: "johndoe",
-    email: "jd1234@example.com",
-    password_plain: "veryweakpassword",
-    password_hash: "$2b$10$mBKis30z6XqpLGJq0F3LAuzxZFPPsmDZELyphk5hUQQa0WwTGXHmy",
-    access: "original",
-    access_hash: "$2b$10$sp5JN3fneiU3amkLcPYDm.YlQUD.EwgN97odovQrIqMJ8h.oulzCu"
-  }, {
-    id: 2,
-    username: "copcop",
-    email: "copcop@test.org",
-    password_plain: "extremelygoodpassword",
-    password_hash: "$2b$10$JanxSBM9JAVi78/5kL3WZOJb/afVUS99MEyAcWEunKXJr/n61SuIe",
-    access: "unique",
-    access_hash: "$2b$10$0lc9ewzIHiX50infkTfNDeLUNbK1jMmJLkbeuQY1NnJ3hosiMzIY."
-  }
-]
 
 // This is a temporary construct for holding refresh tokens. Replace this with the refreshTokens table in my database!
 let refreshTokens = [];
@@ -145,7 +120,6 @@ auth.post('/refresh', (req, res) => {
       username: payload.username,
       email: payload.email
     }
-    console.log(newPayload);
     return res.send({token: generateAccessToken(newPayload)});
   });
 });
@@ -216,8 +190,6 @@ auth.post('/verify', (req, res) => {
 // Given an access token, verifies the token and returns as many stats as possible regarding the user.
 auth.post('/statistics', (req, res) => {
   if (req.body.accessToken) jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
-    console.log(err);
-    console.log(payload);
     if (err) return res.send({result: "error", reason: "invalid_access_token"});
     // Get number of posts
     else db.query("SELECT numposts FROM (SELECT user_id, COUNT(*) AS numposts FROM post GROUP BY user_id) AS A WHERE user_id = ?;", [payload.id], (err, posts, fields) => {
@@ -237,4 +209,20 @@ auth.post('/statistics', (req, res) => {
 
   });
   else return res.send({result: "error", reason: "no_token"});
+});
+
+auth.post('/comment', (req, res) => {
+  console.log(req.body);
+  if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
+  if (!req.body.comment) return res.send({status: "error", reason: "no_comment"});
+  if (!req.body.post_id) return res.send({status: "error", reason: "no_post_id"});
+  jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+    if (err) return res.send({status: "error", reason: "invalid_token", error: err});
+    console.log(payload);
+    db.query("INSERT INTO comment(post_id, username, content) VALUES(?, ?, ?);",
+             [req.body.post_id, payload.username, req.body.comment], (query_error, result, fields) => {
+      if (query_error) return res.send({status: "error", reason: "query_error", error: query_error});
+      return res.send({status: "success"});
+    });
+  });
 });

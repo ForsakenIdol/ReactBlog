@@ -14,7 +14,10 @@ class BlogPost extends React.Component {
             }
             return response.json();
         }).then(result => {
-            this.setState({
+            if (!(this.state &&
+                this.state.post === result[0] &&
+                this.state.comments === result[1] &&
+                this.state.author === result[2].username)) this.setState({
                 post: result[0],
                 comments: result[1],
                 author: result[2].username
@@ -24,6 +27,9 @@ class BlogPost extends React.Component {
 
     componentDidMount() {
         this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
+        let thisinterval = setInterval(() => {
+            this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
+        }, 2000);
         this.props.handleStatus();
     }
 
