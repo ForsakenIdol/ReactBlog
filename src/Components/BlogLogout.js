@@ -14,10 +14,12 @@ export default class BlogLogout extends React.Component {
             }
             else return response.json();
         }).then(result => {
-            if (result.status == "success") {
-                localStorage.clear();
-                this.props.handleStatus();
-            } else console.log(result);
+            console.log(result)
+            if (result.status == "success") console.log("Logout occured normally.");
+            else if (result.status == "error") console.log("The logout route encountered an error. Attempting a logout anyway.")
+            else console.log("The logout route encountered an unexpected result. Attempting a logout anyway.");
+            localStorage.clear();
+            this.props.handleStatus();
         });
     }
 

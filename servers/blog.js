@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -35,7 +36,6 @@ const remoteCredentials = {
 // Create the connection to our MySQL database
 const db = mysql.createConnection(localCredentials); 
 
-
 /* Setting up the port for our application */
 const port = 8080;
 const server = app.listen(port, () => {
@@ -46,7 +46,7 @@ const server = app.listen(port, () => {
   });
 });
 
-/* Request paths (Currently, these are just test paths, serving sample information) */
+/* Request paths */
 
 app.get('/api/blog/posts', (req, res) => {
   db.query("SELECT * FROM post ORDER BY id ASC;", (err, result, fields) => {

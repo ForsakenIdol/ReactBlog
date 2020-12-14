@@ -7,12 +7,11 @@ const dotenv = require('dotenv');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
 
 const auth = express();
-
 auth.use(cors());
 auth.use(bodyParser.urlencoded({extended: false}));
 auth.use(bodyParser.json());
@@ -43,12 +42,16 @@ const server = auth.listen(port, () => {
   console.log(`Authentication server is now live on port ${port}.`);
   db.connect(function(err) {
     if (err) console.log(err);
-    else console.log("Connected to MYSQL!");
+    else {
+      console.log("Connected to MYSQL!");
+      // Clear the table of refresh tokens
+      db.query("DELETE FROM refreshTokens;", (err, result, fields) => {
+        if (err) console.log(err);
+        else console.log("Cleared refresh table ready for a new server session.")
+      });
+    }
   });
 });
-
-// This is a temporary construct for holding refresh tokens. Replace this with the refreshTokens table in my database!
-let refreshTokens = [];
 
 let generateAccessToken = payload => {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10s" });
@@ -59,17 +62,6 @@ let generateRefreshToken = payload => {
 }
 
 /* Authentication Paths */
-
-auth.get('/bcrypttest', (req, res) => {
-  let user = tempUsers[1];
-  bcrypt.hash(user.password_plain, 10, (err, encrypted) => {
-    if (err) {console.log(err); return res.send(err);}
-    console.log(encrypted);
-    res.send(bcrypt.compareSync(user.password_plain, encrypted) &&
-    bcrypt.compareSync(user.password_plain, user.password_hash)
-      ? "Hashes match!" : "Hashes do not match!");
-  });
-});
 
 auth.post('/login', (req, res) => {
   console.log("Posted to login route!");
@@ -96,11 +88,12 @@ auth.post('/login', (req, res) => {
               access: access
             };
             let refreshToken = generateRefreshToken(payload);
-            // Ideally, here we would store the refresh token in a MySQL table before sending both tokens to the user.
-            // What we'll do here temporarily is store the refresh token in a simple object.
-            refreshTokens.push(refreshToken);
-            // Send tokens to user
-            res.send({accessToken: generateAccessToken(payload), refreshToken: refreshToken});
+            // Store the token in the database
+            db.query("INSERT INTO refreshTokens(token) VALUES(?) ", [refreshToken], (err, result, fields) => {
+              if (err) return res.send({result: "error", cause: "token", error: err});
+              // Send tokens to user
+              res.send({accessToken: generateAccessToken(payload), refreshToken: refreshToken});
+            });
           });
         } else return res.send({result: "error", cause: "password"}); // Password incorrect
       }); 
@@ -111,16 +104,23 @@ auth.post('/login', (req, res) => {
 // Checks and validates the refresh token before generating a new access token for the user.
 auth.post('/refresh', (req, res) => {
   const refreshToken = req.body ? req.body.token : null;
-  if (refreshToken == null) res.send({error: "notoken"});
-  if (!refreshTokens.includes(refreshToken)) res.send({error: "invalidtoken"});
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
-    if (err) return res.send(err);
-    let newPayload = {
-      id: payload.id,
-      username: payload.username,
-      email: payload.email
+  if (refreshToken == null) return res.send({error: "notoken"});
+  // Search for the token in our database
+  db.query("SELECT * FROM refreshTokens WHERE token=?;", [refreshToken], (err, result, fields) => {
+    if (err) {console.log(err); return res.send({error: "queryerror"});}
+    if (result.length === 1) {
+      // Verify the token, if we found it in our database
+      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+        if (err) return res.send(err);
+        let newPayload = {
+          id: payload.id,
+          username: payload.username,
+          email: payload.email
+        }
+        return res.send({token: generateAccessToken(newPayload)});
+      });
     }
-    return res.send({token: generateAccessToken(newPayload)});
+    else return res.send({error: "invalidtoken"});
   });
 });
 
@@ -128,14 +128,14 @@ auth.delete('/logout', (req, res) => {
   console.log(req.body);
   jwt.verify(req.body.token, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
     // The error is called if the token is not valid.
-    if (err) res.send({status: "error", error: err});
+    if (err) return res.send({status: "error", error: err});
     else {
-      // We do a second check to see if we were tracking this refresh token in the first place.
-      let i = refreshTokens.indexOf(req.body.token);
-      if (i >= 0) {
-        refreshTokens.splice(i, 1);
-        res.send({status: "success"});
-      } else res.send({status: "failure"});
+      // We check whether we were tracking the token, and if we were, we delete it.
+      db.query("DELETE FROM refreshTokens WHERE token=?;", [req.body.token], (delete_err, delete_result, fields) => {
+        if (delete_err) return res.send({status: "error", error: delete_err});
+        console.log(delete_result);
+        return res.send({status: "success"});
+      });
     }
   });
 });
@@ -211,6 +211,8 @@ auth.post('/statistics', (req, res) => {
   else return res.send({result: "error", reason: "no_token"});
 });
 
+
+/* This route handles posting of the comment form. */
 auth.post('/comment', (req, res) => {
   console.log(req.body);
   if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
