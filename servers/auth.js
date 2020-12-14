@@ -47,7 +47,7 @@ const server = auth.listen(port, () => {
       // Clear the table of refresh tokens
       db.query("DELETE FROM refreshTokens;", (err, result, fields) => {
         if (err) console.log(err);
-        else console.log("Cleared refresh table ready for a new server session.")
+        else console.log("Cleared refresh table ready for a new server session.");
       });
     }
   });

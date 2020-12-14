@@ -104,7 +104,3 @@ app.get('/api/blog/posts/:id', (req, res) => {
     }
   });
 });
-
-app.get('*', (req, res) => {
-  res.send("This route matches all routes not accounted for on this server.");
-});
