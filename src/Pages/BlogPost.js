@@ -14,10 +14,7 @@ class BlogPost extends React.Component {
             }
             return response.json();
         }).then(result => {
-            if (!(this.state &&
-                this.state.post === result[0] &&
-                this.state.comments === result[1] &&
-                this.state.author === result[2].username)) this.setState({
+            this.setState({
                 post: result[0],
                 comments: result[1],
                 author: result[2].username
@@ -25,11 +22,13 @@ class BlogPost extends React.Component {
         }).catch(error => {console.log("Error during fetch: " + error);});
     }
 
+    update_this() {
+        this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
+        this.forceUpdate();
+    }
+
     componentDidMount() {
         this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
-        let thisinterval = setInterval(() => {
-            this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
-        }, 2000);
         this.props.handleStatus();
     }
 
@@ -37,7 +36,7 @@ class BlogPost extends React.Component {
         return (
             <div className="blog-post">
                 <BlogBox post={this.state ? this.state.post : []} author={this.state ? this.state.author : ""}/>
-                <CommentForm post_id={this.props.match.params.id} />
+                <CommentForm post_id={this.props.match.params.id} update_this={this.update_this.bind(this)}/>
                 <CommentBox comments={this.state ? this.state.comments: []} />
             </div>
         );

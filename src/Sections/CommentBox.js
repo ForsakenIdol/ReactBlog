@@ -8,8 +8,12 @@ class CommentBox extends React.Component {
         if (!comments) return (<p>No comments provided!</p>);
         let result = []
         for (let i = 0; i < comments.length; i++) {
+            this.state && this.state.access === "unique" ? 
             result.push(
-                <Comment key={i} author={comments[i].username} datetime={comments[i].publish_datetime} content={comments[i].content} admin={comments[i].admin}/>
+                <Comment key={i} id={comments[i].id} author={comments[i].username} datetime={comments[i].publish_datetime} content={comments[i].content} admin={true} handleDelete={this.handleDelete.bind(this)} />
+            ) :
+            result.push(
+                <Comment key={i} author={comments[i].username} datetime={comments[i].publish_datetime} content={comments[i].content} />
             );
             result.push(
                 <hr key={100 + i} style={{borderColor: "grey", marginTop: "2rem"}}/>
@@ -17,6 +21,28 @@ class CommentBox extends React.Component {
         }
         if (result.length == 0) return (<p>No comments yet!</p>);
         return result;
+    }
+
+    // This function is called when a comment's delete button is pressed.
+    handleDelete(id) {
+        console.log(`Reached delete for comment with ID ${id}.`);
+    }
+
+    componentDidMount() {
+        let token = localStorage.getItem("accessToken");
+        if (token) {
+            fetch("http://localhost:5000/payload", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({accessToken: localStorage.getItem("accessToken")})
+            }).then(response => {if (!response.ok) console.log("Payload response was not ok."); return response.json();})
+              .then(result => {
+                  console.log(result);
+                  this.setState({
+                      access: result.payload.access
+                  });
+              })
+        }
     }
 
     render() {

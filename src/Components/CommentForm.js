@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import { Component } from 'react';
 
 function CommentForm(props) {
     return (
@@ -36,6 +35,7 @@ function CommentForm(props) {
                                 $("#add-comment-success").hide();
                                 $("#add-comment-success").text("Comment posted successfully!");
                                 $("#add-comment-success").fadeToggle(500);
+                                props.update_this();
                                 setTimeout(() => {$("#add-comment-success").fadeToggle(500);}, 3000);
                             } else if (result.status === "error") {
                                 if (result.reason === "no_comment") {

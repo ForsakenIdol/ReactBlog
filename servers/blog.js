@@ -70,8 +70,7 @@ app.get('/api/blog/samplepost', (req, res) => {
       {
           author: "ForsakenIdol",
           datetime: "22/11/2020 13:31:55",
-          content: "A fantastic piece of work!",
-          admin: true
+          content: "A fantastic piece of work!"
       },
       {
           author: "Legionator",
