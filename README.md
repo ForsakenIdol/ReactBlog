@@ -20,7 +20,7 @@ I've made a concerted effort to modularize as many components as possible, and w
 
 This TODO list staggers items as I feel they can be done together.
 
-- Administrator delete posts and comments functionality.
+- Administrator delete posts functionality.
 - Administrator create posts functionality.
 
 **Comment Form Functionality**
