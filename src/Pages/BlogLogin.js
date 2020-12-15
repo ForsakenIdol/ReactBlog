@@ -38,7 +38,7 @@ export default class BlogLogin extends React.Component {
         return (
             <div style={{marginTop: "7rem", marginBottom: "5rem"}}>
                 <h1 className="form-title">Login</h1>
-                <form action="http://localhost:5000/login" method="POST" className="container auth-form" id="login-form">
+                <form className="container auth-form" id="login-form">
                     <div className="form-group">
                         <label htmlFor="login-form-username" className="form-label" >Username <span style={{color: "red"}}>*</span></label>
                         <input type="text" name="username" className="form-control" style={{ border: "2px solid #555" }} id="login-form-username" placeholder="Username" />

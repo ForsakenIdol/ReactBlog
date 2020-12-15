@@ -106,7 +106,7 @@ export default class BlogRegister extends React.Component {
         return (
             <div style={{marginTop: "7rem", marginBottom: "5rem"}}>
                 <h1 className="form-title">Register</h1>
-                <form action="http://localhost:5000/register" method="POST" className="container auth-form" id="register-form">
+                <form className="container auth-form" id="register-form">
                     {/* Username, Email, Password, Confirm Password */}
                     <div className="form-group">
                         <label htmlFor="register-form-username" className="form-label" >Username <span style={{color: "red"}}>*</span></label>
@@ -143,7 +143,7 @@ export default class BlogRegister extends React.Component {
                             }
                         }
                     }>Register</button>
-                    <span className="form-failure" style={{color: "green"}} id ="register-form-success"></span>
+                    <span className="form-failure" style={{color: "green"}} id="register-form-success"></span>
                     <span className="form-failure" id="register-form-failure"></span>
                 </form>
             </div>
