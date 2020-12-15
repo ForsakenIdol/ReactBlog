@@ -54,7 +54,7 @@ const server = auth.listen(port, () => {
 });
 
 let generateAccessToken = payload => {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10s" });
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
 }
 
 let generateRefreshToken = payload => {
@@ -211,6 +211,19 @@ auth.post('/statistics', (req, res) => {
   else return res.send({result: "error", reason: "no_token"});
 });
 
+// Given a token, verifies and returns the payload if valid.
+auth.post('/payload', (req, res) => {
+  let secret = '';
+  let token = '';
+  if (req.body.accessToken) {token = req.body.accessToken; secret = process.env.ACCESS_TOKEN_SECRET;}
+  else if (req.body.refreshToken) {token = req.body.refreshToken; secret = process.env.REFRESH_TOKEN_SECRET;}
+  if (secret !== '') {
+    jwt.verify(token, secret, (err, payload) => {
+      if (err) return res.send({status: "error", reason: "verify_error", error: err});
+      else return res.send({status: "success", payload: payload});
+    });
+  } else return res.send({status: "error", reason: "no_token"})
+});
 
 /* This route handles posting of the comment form. */
 auth.post('/comment', (req, res) => {

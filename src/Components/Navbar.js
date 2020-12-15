@@ -85,7 +85,7 @@ class Navbar extends React.Component {
     }).catch(error => console.log(error));
   }
 
-  componentDidMount() {this.handleStatus(); setInterval(() => {this.handleStatus();}, 10000)};
+  componentDidMount() {this.handleStatus(); setInterval(() => {this.handleStatus();}, 600000)};
 
   /* Render Function */
 
