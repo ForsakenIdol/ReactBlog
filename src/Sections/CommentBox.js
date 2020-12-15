@@ -26,6 +26,15 @@ class CommentBox extends React.Component {
     // This function is called when a comment's delete button is pressed.
     handleDelete(id) {
         console.log(`Reached delete for comment with ID ${id}.`);
+        fetch(`http://localhost:5000/comment/${id}`, {
+            method: "DELETE",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({accessToken: localStorage.getItem("accessToken"), id: id})
+        }).then(response => {if (!response.ok) console.log("Comment delete response was not ok."); return response.json();})
+          .then(result => {
+              console.log(result);
+              this.props.update_this();
+          });
     }
 
     componentDidMount() {

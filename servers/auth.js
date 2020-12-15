@@ -241,3 +241,18 @@ auth.post('/comment', (req, res) => {
     });
   });
 });
+
+/* This route handles deleting of comments. The current access token needs to be passed with the comment ID. */
+auth.delete('/comment/:id', (req, res) => {
+  console.log("Comment delete was requested.");
+  console.log(req.body);
+  if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
+  jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+    if (err) return res.send({status: "error", reason: "invalid_token", error: err});
+    else if (payload.access !== "unique") return res.send({status: "error", reason: "invalid_permissions"});
+    else db.query("DELETE FROM comment WHERE id=?", [req.params.id], (query_error, result, fields) => {
+      if (err) return res.send({status: "error", reason: "query_error", error: query_error});
+      else return res.send({status: "success", result: result});
+    });
+  });
+})

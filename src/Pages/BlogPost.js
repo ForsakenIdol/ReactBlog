@@ -37,7 +37,7 @@ class BlogPost extends React.Component {
             <div className="blog-post">
                 <BlogBox post={this.state ? this.state.post : []} author={this.state ? this.state.author : ""}/>
                 <CommentForm post_id={this.props.match.params.id} update_this={this.update_this.bind(this)}/>
-                <CommentBox comments={this.state ? this.state.comments: []} />
+                <CommentBox comments={this.state ? this.state.comments: []} update_this={this.update_this.bind(this)}/>
             </div>
         );
     }   
