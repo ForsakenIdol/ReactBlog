@@ -292,3 +292,17 @@ a.inline-link:hover {
     text-decoration: none;
     color: grey;
 }
+
+button.delete-post {
+    font-family: 'Oxygen', sans-serif;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    font-style: italic;
+    transition: 250ms;
+}
+
+button.delete-post:hover {
+    color: grey;
+}

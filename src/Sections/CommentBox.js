@@ -34,10 +34,10 @@ class CommentBox extends React.Component {
           .then(result => {
               console.log(result);
               this.props.update_this();
-          });
+          }).catch(error => {console.log(error);});
     }
 
-    componentDidMount() {
+    verify_token() {
         let token = localStorage.getItem("accessToken");
         if (token) {
             fetch("http://localhost:5000/payload", {
@@ -47,11 +47,15 @@ class CommentBox extends React.Component {
             }).then(response => {if (!response.ok) console.log("Payload response was not ok."); return response.json();})
               .then(result => {
                   console.log(result);
-                  this.setState({
-                      access: result.payload.access
+                  if (result.status !== "error") this.setState({
+                      access: result.payload.access 
                   });
               })
         }
+    }
+
+    componentDidMount() {
+        this.verify_token();
     }
 
     render() {

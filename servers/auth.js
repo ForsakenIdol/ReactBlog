@@ -250,9 +250,23 @@ auth.delete('/comment/:id', (req, res) => {
   jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     if (err) return res.send({status: "error", reason: "invalid_token", error: err});
     else if (payload.access !== "unique") return res.send({status: "error", reason: "invalid_permissions"});
-    else db.query("DELETE FROM comment WHERE id=?", [req.params.id], (query_error, result, fields) => {
+    else db.query("DELETE FROM comment WHERE id=?;", [req.params.id], (query_error, result, fields) => {
       if (err) return res.send({status: "error", reason: "query_error", error: query_error});
       else return res.send({status: "success", result: result});
     });
   });
 })
+
+/* This route handles deleting of posts. The current access token also needs to be passed with the post ID. */
+auth.delete('/post/:id', (req, res) => {
+  console.log(`Requested delete of post with ID ${req.params.id}!`);
+  if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
+  jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+    if (err) return res.send({status: "error", reason: "invalid_token", error: err});
+    else if (payload.access !== "unique") return res.send({status: "error", reason: "invalid_permissions"});
+    else db.query("DELETE FROM post WHERE id=?;", [req.params.id], (query_error, result, fields) => {
+      if (err) return res.send({status: "error", reason: "query_error", error: query_error});
+      else return res.send({status: "success", result: result});
+    });
+  });
+});
