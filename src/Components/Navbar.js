@@ -8,6 +8,7 @@ import BlogLogin from '../Pages/BlogLogin';
 import BlogRegister from '../Pages/BlogRegister';
 import BlogLogout from '../Components/BlogLogout';
 import BlogProfile from '../Pages/BlogProfile';
+import BlogAddPost from '../Pages/BlogAddPost';
 
 
 /*
@@ -35,6 +36,7 @@ class Navbar extends React.Component {
     );
     else return (
       <ul className="navbar-nav ml-auto" id="navlinks-right">
+        <li className="nav-item"><Link to='/addpost'>Post</Link></li>
         {/* The profile can perform an API call to get all the available information about a user. 
             We then filter out only the information we need to use, but all the information is there. */}
         <li className="nav-item"><Link to='/profile'>Profile</Link></li>
@@ -85,7 +87,7 @@ class Navbar extends React.Component {
     }).catch(error => console.log(error));
   }
 
-  componentDidMount() {this.handleStatus(); setInterval(() => {this.handleStatus();}, 600000)};
+  componentDidMount() {this.handleStatus(); let statusInterval = setInterval(() => {this.handleStatus();}, 600000)};
 
   /* Render Function */
 
@@ -123,6 +125,7 @@ class Navbar extends React.Component {
           <Route path='/profile'>
             {this.state.logged_in ? <BlogProfile handleStatus={this.handleStatus.bind(this)} /> : <Redirect to='/login' />}
           </Route>
+          <Route path='/addpost' render={props => <BlogAddPost {...props} logged_in={this.state.logged_in}/>} />
           <Route path='/' render={props => <BlogHome {...props}/>} />
         </Switch>
       </Router>

@@ -43,7 +43,7 @@ export default class BlogLogin extends React.Component {
                         <label htmlFor="login-form-username" className="form-label" >Username <span style={{color: "red"}}>*</span></label>
                         <input type="text" name="username" className="form-control" style={{ border: "2px solid #555" }} id="login-form-username" placeholder="Username" />
                         <span className="form-failure" id="login-form-username-error"></span>
-                        <small id="login-info" className="form-text text-muted">Standard users, login to leave comments and view your personal information. Administrators, login to additionally manage accounts and moderate blog posts.</small>
+                        <small id="login-info" className="form-text text-muted">Standard users, login to leave comments and view your personal information. Administrators, login to additionally manage accounts, add posts, and moderate blog posts.</small>
                     </div>
                     <div className="form-group">
                         <label htmlFor="login-form-password" className="form-label" >Password <span style={{color: "red"}}>*</span></label>
