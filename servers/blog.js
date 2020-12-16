@@ -86,7 +86,7 @@ app.get('/api/blog/posts/:id', (req, res) => {
     if (err) {
       console.log("Error!");
       res.send(err);
-    } else {
+    } else if (post.length > 0) {
       db.query("SELECT * FROM comment WHERE post_id = ?;", [req.params.id], (err, comments, fields) => {
         if (err) {
           console.log("Error!");
@@ -100,6 +100,6 @@ app.get('/api/blog/posts/:id', (req, res) => {
           });
         }
       });
-    }
+    } else res.send({status: "error", reason: "no_post"});
   });
 });
