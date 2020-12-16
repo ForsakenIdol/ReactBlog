@@ -4,12 +4,26 @@ import { Redirect } from 'react-router-dom';
 
 export default class BlogAddPost extends React.Component {
 
-    checkAddPostForm() {
+    renderError(span, message) {
         
+    }
+
+    checkAddPostForm() {
+
+        let title = $("#add-post-title").val();
+        let image_link = $("#add-post-image-link").val();
+        let content = $("#add-post-content").val();
+
+        let title_error = "Title is required.";
+        let image_link_error = "Image link is required.";
+        let content_error = "Content is required.";
+
+
     }
 
     componentDidMount() {
         console.log("BlogAddPost has been mounted.");
+        $(".form-failure").hide();
     }
 
     render() {
@@ -41,7 +55,16 @@ export default class BlogAddPost extends React.Component {
                     </div>
                     <button type="submit" className="btn btn-dark" onClick={e => {
                         e.preventDefault();
+                        console.clear();
                         console.log("Form submitted!");
+                        
+                        let title = $("#add-post-title").val();
+                        let subtitle = $("#add-post-subtitle").val();
+                        let image_link = $("#add-post-image-link").val();
+                        let content = $("#add-post-content").val();
+
+                        console.log(content);
+
                     }}>Submit Post</button>
                 </form>
             </div>
