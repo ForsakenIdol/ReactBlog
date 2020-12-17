@@ -9,10 +9,7 @@ class BlogPost extends React.Component {
     
     getBlogPost(address) {
         fetch(address).then(response => {
-            if (!response.ok) {
-                console.log(response);
-                throw new Error("Featured blog response was not ok.");
-            }
+            if (!response.ok) {throw new Error("Featured blog response was not ok.");}
             return response.json();
         }).then(result => {
             if (result.status !== "error") {
@@ -39,7 +36,7 @@ class BlogPost extends React.Component {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({accessToken: localStorage.getItem("accessToken")})
-            }).then(response => {if (!response.ok) console.log("Payload response was not ok."); return response.json();})
+            }).then(response => {if (!response.ok) throw new Error("Payload response was not ok."); return response.json();})
               .then(result => {
                   console.log(result);
                   if (result.status !== "error") this.setState({
@@ -55,14 +52,10 @@ class BlogPost extends React.Component {
             method: "DELETE",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({accessToken: localStorage.getItem("accessToken"), id: id})
-        }).then(response => {if (!response.ok) console.log("Post delete response was not ok."); return response.json();})
+        }).then(response => {if (!response.ok) throw new Error("Post delete response was not ok."); return response.json();})
             .then(result => {
                 console.log(result);
-                if (result.status === "success") {
-                    // Successfully deleted. What do we do now?
-                    // this.update_this();
-                    this.props.history.replace('/');
-                }
+                if (result.status === "success") this.props.history.replace('/');
             }).catch(error => {console.log(error);});
     }
 
@@ -71,13 +64,7 @@ class BlogPost extends React.Component {
         this.props.handleStatus();
         this.verify_token();
     }
-    /*
-    componentDidCatch(error) {
-        console.log("Caught an error!");
-        console.log(error);
-        this.props.history.replace('/');
-    }
-    */
+
     render() {
         if (this.state) {
             if (!(this.state.status === "error")) {

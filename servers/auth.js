@@ -64,7 +64,6 @@ let generateRefreshToken = payload => {
 /* Authentication Paths */
 
 auth.post('/login', (req, res) => {
-  console.log("Posted to login route!");
   if (!req.body.username) return res.send({status: "error", missing: "username"});
   if (!req.body.password) return res.send({status: "error", missing: "password"});
   // Search for the user in the database
@@ -125,7 +124,6 @@ auth.post('/refresh', (req, res) => {
 });
 
 auth.delete('/logout', (req, res) => {
-  console.log(req.body);
   jwt.verify(req.body.token, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
     // The error is called if the token is not valid.
     if (err) return res.send({status: "error", error: err});
@@ -133,7 +131,6 @@ auth.delete('/logout', (req, res) => {
       // We check whether we were tracking the token, and if we were, we delete it.
       db.query("DELETE FROM refreshTokens WHERE token=?;", [req.body.token], (delete_err, delete_result, fields) => {
         if (delete_err) return res.send({status: "error", error: delete_err});
-        console.log(delete_result);
         return res.send({status: "success"});
       });
     }
@@ -227,13 +224,11 @@ auth.post('/payload', (req, res) => {
 
 /* This route handles posting of the comment form. */
 auth.post('/comment', (req, res) => {
-  console.log(req.body);
   if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
   if (!req.body.comment) return res.send({status: "error", reason: "no_comment"});
   if (!req.body.post_id) return res.send({status: "error", reason: "no_post_id"});
   jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     if (err) return res.send({status: "error", reason: "invalid_token", error: err});
-    console.log(payload);
     db.query("INSERT INTO comment(post_id, username, content) VALUES(?, ?, ?);",
              [req.body.post_id, payload.username, req.body.comment], (query_error, result, fields) => {
       if (query_error) return res.send({status: "error", reason: "query_error", error: query_error});
@@ -245,7 +240,6 @@ auth.post('/comment', (req, res) => {
 /* This route handles deleting of comments. The current access token needs to be passed with the comment ID. */
 auth.delete('/comment/:id', (req, res) => {
   console.log("Comment delete was requested.");
-  console.log(req.body);
   if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
   jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     if (err) return res.send({status: "error", reason: "invalid_token", error: err});
@@ -280,10 +274,8 @@ auth.post('/post', (req, res) => {
     if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
     jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
       if (err) return res.send({status: "error", reason: "verify_error", error: err});
-      console.log(payload);
       if (!(payload.access === "unique")) return res.send({status: "error", reason: "invalid_permissions"});
       let parameters = [payload.id, req.body.title, req.body.subtitle, req.body.image_link, req.body.content];
-      console.log(parameters);
       db.query("INSERT INTO post(user_id, title, subtitle, image_link, content) VALUES(?, ?, ?, ?, ?);",
               parameters, (query_err, result, fields) => {
                 if (query_err) return res.send({status: "error", reason: "query_error", error: query_err});

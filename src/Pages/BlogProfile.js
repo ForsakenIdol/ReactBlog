@@ -11,10 +11,9 @@ export default class BlogProfile extends Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({accessToken: localStorage.getItem("accessToken")})
         }).then(response => {
-            if (!response.ok) console.log("Statistics received were not ok.");
+            if (!response.ok) throw new Error("Statistics received were not ok.");
             else return response.json();
         }).then(result => {
-            console.log(result);
             $("#username").text(result.username);
             $("#numposts").text(result.numposts + (result.numposts === 1 ? " post" : " posts"));
             $("#numcomments").text(result.numcomments + (result.numcomments === 1 ? " comments" : " comments"));

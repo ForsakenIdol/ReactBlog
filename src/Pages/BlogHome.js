@@ -10,10 +10,7 @@ class BlogHome extends React.Component {
 
     getBlogData(address) {
         fetch(address).then(response => {
-            if (!response.ok) {
-                console.log(response);
-                throw new Error("Blog response was not ok.");
-            }
+            if (!response.ok) {throw new Error("Blog response was not ok.");}
             return response.json();
         }).then(result => {
             let domain = "http://localhost:3000";

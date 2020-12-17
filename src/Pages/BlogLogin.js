@@ -63,10 +63,7 @@ export default class BlogLogin extends React.Component {
                                     headers: {'Content-Type': 'application/json'},
                                     body: JSON.stringify(body)
                                 }).then(response => {
-                                    if (!response.ok) {
-                                    console.log(response);
-                                    throw new Error("Login response was not ok");
-                                    }
+                                    if (!response.ok) {throw new Error("Login response was not ok");}
                                     else return response.json();
                                 }).then(result => {
                                     // Set tokens in localStorage

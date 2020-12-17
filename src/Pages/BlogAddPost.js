@@ -28,10 +28,7 @@ export default class BlogAddPost extends React.Component {
         return errors;
     }
 
-    componentDidMount() {
-        console.log("BlogAddPost has been mounted.");
-        $(".form-failure").hide();
-    }
+    componentDidMount() {$(".form-failure").hide();}
 
     render() {
         if (!this.props.logged_in) return <Redirect to='/login' />
@@ -63,8 +60,6 @@ export default class BlogAddPost extends React.Component {
                     <button type="submit" className="btn btn-dark" onClick={e => {
                         e.preventDefault();
                         console.clear();
-                        console.log("Form submitted!");
-
                         let body = {
                             title: $("#add-post-title").val(),
                             subtitle: $("#add-post-subtitle").val(),
@@ -72,11 +67,7 @@ export default class BlogAddPost extends React.Component {
                             content: $("#add-post-content").val(),
                             accessToken: localStorage.getItem("accessToken")
                         }
-
-                        console.log(body);
-
                         if (this.checkAddPostForm() === 0) {
-                            console.log("Form is ok! Submitting it now.");
                             // The backend needs to not only verify that the token is valid, but the "access" field needs to be "unique".
                             fetch("http://localhost:5000/post", {
                                 method: "POST",
@@ -84,7 +75,6 @@ export default class BlogAddPost extends React.Component {
                                 body: JSON.stringify(body)
                             }).then(response => {if (!(response.ok)) throw new Error("Post response was not ok."); else return response.json();})
                               .then(result => {
-                                  console.log(result);
                                   if (result.status === "success") {$("input").val(""); $("textarea").val(""); this.renderError("add-post-form-success", "Posted successfully!");}
                                   else this.renderError("add-post-form-error", `Error during submit: ${result.reason}`);
                               });

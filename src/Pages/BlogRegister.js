@@ -70,7 +70,6 @@ export default class BlogRegister extends React.Component {
             $("#register-form-success").fadeToggle(500);
             setTimeout(() => {$("#register-form-success").fadeToggle(500);}, 5000);
           } else if (result.status === "failure") {
-              console.log(result.reason);
               switch (result.reason) {
                   case "username":
                     $("#register-form-failure").text("That username has already been taken.");

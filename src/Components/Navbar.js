@@ -61,14 +61,12 @@ class Navbar extends React.Component {
       if (result.refresh !== "valid") this.setState({logged_in: false});
       else if (result.access !== "valid") {
         // Attempt to request and store a new token
-        //console.log("Access token expired, but refresh token is still valid. We now need to request a new access token.");
         fetch("http://localhost:5000/refresh", {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({token: localStorage.getItem("refreshToken")})
         }).then(response => {
           if (!response.ok) {
-            console.log(response);
             localStorage.clear();
             throw new Error("Refresh response was not ok");
           }

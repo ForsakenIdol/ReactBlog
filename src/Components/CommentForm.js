@@ -29,7 +29,6 @@ function CommentForm(props) {
                             })
                         }).then(response => {if (!response.ok) console.log("Comment form response was not ok."); else return response.json()})
                         .then(result => {
-                            console.log(result);
                             if (result.status === "success") {
                                 $("#add-comment-content").val('');
                                 $("#add-comment-success").hide();
