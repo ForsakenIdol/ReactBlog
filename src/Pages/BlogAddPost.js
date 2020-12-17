@@ -5,7 +5,9 @@ import { Redirect } from 'react-router-dom';
 export default class BlogAddPost extends React.Component {
 
     renderError(span, message) {
-        
+        $(`#${span}`).text(message);
+        $(`#${span}`).fadeToggle(500);
+        setTimeout(() => {$(`#${span}`).fadeToggle(500);}, 3000);
     }
 
     checkAddPostForm() {
@@ -18,7 +20,12 @@ export default class BlogAddPost extends React.Component {
         let image_link_error = "Image link is required.";
         let content_error = "Content is required.";
 
+        let errors = 0;
+        if (title === '') {errors++; this.renderError("add-post-title-error", title_error);}
+        if (image_link === '') {errors++; this.renderError("add-post-image-link-error", image_link_error);}
+        if (content === '') {errors++; this.renderError("add-post-content-error", content_error);}
 
+        return errors;
     }
 
     componentDidMount() {
@@ -57,13 +64,22 @@ export default class BlogAddPost extends React.Component {
                         e.preventDefault();
                         console.clear();
                         console.log("Form submitted!");
-                        
-                        let title = $("#add-post-title").val();
-                        let subtitle = $("#add-post-subtitle").val();
-                        let image_link = $("#add-post-image-link").val();
-                        let content = $("#add-post-content").val();
 
-                        console.log(content);
+                        let body = {
+                            title: $("#add-post-title").val(),
+                            subitle: $("#add-post-subtitle").val(),
+                            image_link: $("#add-post-image-link").val(),
+                            content: $("#add-post-content").val(),
+                            accessToken: localStorage.getItem("accessToken")
+                        }
+
+                        console.log(body);
+
+                        if (this.checkAddPostForm() === 0) {
+                            console.log("Form is ok! Submitting it now.");
+                            // The backend needs to not only verify that the token is valid, but the "access" field needs to be "unique".
+                            
+                        }
 
                     }}>Submit Post</button>
                 </form>
