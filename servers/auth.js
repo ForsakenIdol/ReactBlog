@@ -15,7 +15,7 @@ const auth = express();
 auth.use(cors());
 auth.use(bodyParser.urlencoded({extended: false}));
 auth.use(bodyParser.json());
-dotenv.config({ path: path.resolve(__dirname + "/../src/private/config.env") }); // Load environmental variables
+dotenv.config({ path: path.resolve(__dirname + "/../config.env") }); // Load environmental variables
 
 const localCredentials = {
   host: process.env.LOCALHOST,
