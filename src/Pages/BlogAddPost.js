@@ -51,7 +51,7 @@ export default class BlogAddPost extends React.Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="add-post-image-link" className="form-label" >Image Link <span style={{color: "red"}}>*</span></label>
-                        <input type="text" name="image_link" className="form-control" style={{ border: "2px solid #555" }} id="add-post-image-link" placeholder="Title" />
+                        <input type="text" name="image_link" className="form-control" style={{ border: "2px solid #555" }} id="add-post-image-link" placeholder="Image Link" />
                         <span className="form-failure" id="add-post-image-link-error"></span>
                         <small id="add-post-image-info" className="form-text text-muted">Please use a valid link to an image on the internet. If you mess this up, use my contact form to let me know, but please check that the image link is valid before you submit this form!</small>
                     </div>
@@ -67,7 +67,7 @@ export default class BlogAddPost extends React.Component {
 
                         let body = {
                             title: $("#add-post-title").val(),
-                            subitle: $("#add-post-subtitle").val(),
+                            subtitle: $("#add-post-subtitle").val(),
                             image_link: $("#add-post-image-link").val(),
                             content: $("#add-post-content").val(),
                             accessToken: localStorage.getItem("accessToken")
@@ -78,10 +78,21 @@ export default class BlogAddPost extends React.Component {
                         if (this.checkAddPostForm() === 0) {
                             console.log("Form is ok! Submitting it now.");
                             // The backend needs to not only verify that the token is valid, but the "access" field needs to be "unique".
-                            
+                            fetch("http://localhost:5000/post", {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify(body)
+                            }).then(response => {if (!(response.ok)) throw new Error("Post response was not ok."); else return response.json();})
+                              .then(result => {
+                                  console.log(result);
+                                  if (result.status === "success") {$("input").val(""); $("textarea").val(""); this.renderError("add-post-form-success", "Posted successfully!");}
+                                  else this.renderError("add-post-form-error", `Error during submit: ${result.reason}`);
+                              });
                         }
 
                     }}>Submit Post</button>
+                    <span className="form-failure" id="add-post-form-error"></span>
+                    <span className="form-failure" style={{color: "green"}} id="add-post-form-success"></span>
                 </form>
             </div>
         );

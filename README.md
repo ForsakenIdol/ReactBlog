@@ -20,7 +20,7 @@ I've made a concerted effort to modularize as many components as possible, and w
 
 This TODO list staggers items as I feel they can be done together.
 
-- Administrator create posts functionality.
+*Nothing currently!*
 
 **Comment Form Functionality**
 1. When the comment form submission button is pressed, we attempt to grab the refresh token from local storage.

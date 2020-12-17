@@ -270,3 +270,25 @@ auth.delete('/post/:id', (req, res) => {
     });
   });
 });
+
+// This route handles submission of the blog add post form.
+auth.post('/post', (req, res) => {
+  if (req.body && req.body !== {}) {
+    if (!req.body.title) return res.send({status: "error", reason: "no_title"});
+    if (!req.body.image_link) return res.send({status: "error", reason: "no_image_link"});
+    if (!req.body.content) return res.send({status: "error", reason: "no_content"});
+    if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
+    jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+      if (err) return res.send({status: "error", reason: "verify_error", error: err});
+      console.log(payload);
+      if (!(payload.access === "unique")) return res.send({status: "error", reason: "invalid_permissions"});
+      let parameters = [payload.id, req.body.title, req.body.subtitle, req.body.image_link, req.body.content];
+      console.log(parameters);
+      db.query("INSERT INTO post(user_id, title, subtitle, image_link, content) VALUES(?, ?, ?, ?, ?);",
+              parameters, (query_err, result, fields) => {
+                if (query_err) return res.send({status: "error", reason: "query_error", error: query_err});
+                else res.send({status: "success", result: result});
+      });
+    });
+  } else return res.send({status: "error", reason: "no_body"})
+})
