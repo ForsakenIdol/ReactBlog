@@ -18,7 +18,7 @@ export default class BlogAbout extends Component {
                     <p>While a blog rewrite was long overdue, the reason why it took so long to do so was because I was (among other things) in the process of learning a bunch of new topics and frameworks in web development. Eventually, I completed the React.js tutorial, created a Docker image out of it, and realized that trying to rewrite my blog in React.js was an excellent way to practise using this framework.</p>
                     </div>
                     <div className="col-4" style={{textAlign: "left"}}>
-                        <p>React.js is a powerful frontend JavaScript library for building dynamic user interfaces which rely on 3 things - components (parts of a page in layman's terms), props (values passed to a component), and state (internal values tracked by a component). Combined with <code>react-router</code>, fast loading, multi-page Node.js applications can be easily created, such as this blog.</p>
+                        <p>This application is still very much in early development, and so although it possesses the full functionality of the previous monolithic blog, it may be prone to bugs! If you encounter an issue when browsing this blog, please let me know via my contact form. Bonus points if you can explain the nature of the problem, and what you were doing before you encountered the problem - these details may help me pinpoint the source of the issue. Aside from that, thanks for checking out my blog, and I hope you took something away from what you read here!</p>
                     </div>
                 </div>
             </div>
