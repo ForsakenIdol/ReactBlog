@@ -53,8 +53,8 @@ const server = app.listen(port, () => {
   //console.log(dockerCredentials);
   db.connect(function(err) {
     if (err) {
-      console.log("There was an error connecting to the database. Error details below.");
       console.log(err);
+      throw new Error("There was an error connecting to the database. Error details above.");
     }
     else {
       console.log("Connected to MYSQL!");
@@ -105,7 +105,7 @@ app.get('/api/blog/posts/:id', (req, res) => {
           });
         }
       });
-    } else res.send({status: "error", reason: "no_post"});
+    } else res.status(404).send({status: "error", reason: "no_post"});
   });
 });
 
@@ -267,7 +267,7 @@ app.post('/payload', (req, res) => {
       if (err) return res.send({status: "error", reason: "verify_error", error: err});
       else return res.send({status: "success", payload: payload});
     });
-  } else return res.send({status: "error", reason: "no_token"})
+  } else return res.send({status: "error", reason: "no_token"});
 });
 
 /* This route handles posting of the comment form. */

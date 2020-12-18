@@ -16,7 +16,7 @@ class BlogHome extends React.Component {
             let domain = "http://localhost:3000";
             let titles = []; let subtitles = []; let images = []; let links = [];
             let featuredTitles = []; let featuredSubtitles = [];
-            let featuredImages = []; let featuredLinks = []
+            let featuredImages = []; let featuredLinks = [];
             for (let i = 0; i < result.length; i++) {
                 titles.push(result[i].title);
                 subtitles.push(result[i].subtitle);

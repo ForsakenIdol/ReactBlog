@@ -1,5 +1,6 @@
+import React from 'react';
 
-function Comment(props) {
+const Comment = (props) => {
     let datetime = props.datetime.split('T');
     return (
         <div style={{margin: "1rem 0"}}>
@@ -11,6 +12,6 @@ function Comment(props) {
             
         </div>
     );
-}
+};
 
 export default Comment;

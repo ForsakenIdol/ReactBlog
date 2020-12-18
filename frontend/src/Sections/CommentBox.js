@@ -32,7 +32,6 @@ class CommentBox extends React.Component {
         }).then(response => {if (!response.ok) throw new Error("Comment delete response was not ok."); return response.json();})
           .then(result => {
               console.log(result);
-              this.props.update_this();
           }).catch(error => {console.log(error);});
     }
 

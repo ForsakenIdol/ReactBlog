@@ -1,86 +1,90 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import BlogBox from '../Sections/BlogBox';
 import CommentForm from '../Components/CommentForm';
 import CommentBox from '../Sections/CommentBox';
 
-class BlogPost extends React.Component {
-    
-    getBlogPost(address) {
-        fetch(address).then(response => {
-            if (!response.ok) {throw new Error("Featured blog response was not ok.");}
-            return response.json();
-        }).then(result => {
-            if (result.status !== "error") {
-                this.setState({
-                    post: result[0],
-                    comments: result[1],
-                    author: result[2].username
-                });
-            } else this.setState({status: "error"});
-        }).catch(error => {console.log("Error during fetch: " + error);});
-    }
+const BlogPost = ({ match, handleStatus }) => {
+    const [post, setPost] = useState();
+    const [access, setAccess] = useState();
 
-    update_this() {
-        this.getBlogPost("http://localhost:5000/api/blog/posts/" + this.props.match.params.id);
-        // Redirect on failed access
-        if (this.state.status === "error") this.props.history.replace('/');
-        else this.forceUpdate();
-    }
+    const { getPost, deletePost } = blogPostService();
+    const history = useHistory();
 
-    verify_token() {
-        let token = localStorage.getItem("accessToken");
-        if (token) {
-            fetch("http://localhost:5000/payload", {
-                method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({accessToken: localStorage.getItem("accessToken")})
-            }).then(response => {if (!response.ok) throw new Error("Payload response was not ok."); return response.json();})
-              .then(result => {
-                  console.log(result);
-                  if (result.status !== "error") this.setState({
-                      access: result.payload.access
-                  });
-              })
+    useEffect(async () => {
+        handleStatus();
+        const token = await verifyToken();
+        setAccess(token);
+        try {
+            const post = await getPost(match.params.id);
+            setPost(post);
+        } catch {
+            console.error('Failed to fetch post');
+            history.replace('/');
         }
-    }
+    }, []);
 
-    handlePostDelete(id) {
-        console.log(`Handling delete of blog post with ID ${id}.`);
-        fetch(`http://localhost:5000/post/${id}`, {
-            method: "DELETE",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({accessToken: localStorage.getItem("accessToken"), id: id})
-        }).then(response => {if (!response.ok) throw new Error("Post delete response was not ok."); return response.json();})
-            .then(result => {
-                console.log(result);
-                if (result.status === "success") this.props.history.replace('/');
-            }).catch(error => {console.log(error);});
-    }
+    if (!post) return <div className="blog-post"></div>;
 
-    componentDidMount() {
-        this.getBlogPost("http://localhost:5000/api/blog/posts/" + this.props.match.params.id);
-        this.props.handleStatus();
-        this.verify_token();
-    }
+    return (
+        <div className="blog-post">
+            <BlogBox id={post.id} post={post} admin={access === 'unique'} deletePost={deletePost} />
+            <CommentForm post_id={post.id}/>
+            <CommentBox comments={post.comments}/>
+        </div>
+    );
+};
 
-    render() {
-        if (this.state) {
-            if (!(this.state.status === "error")) {
-                return (
-                    <div className="blog-post">
-                        <BlogBox post={this.state ? this.state.post : []} author={this.state ? this.state.author : ""}
-                        admin={this.state && this.state.access === "unique" ? true : false} id={this.props.match.params.id}
-                        handlePostDelete={this.state && this.state.access === "unique" ? this.handlePostDelete.bind(this) : null}/>
-                        <CommentForm post_id={this.props.match.params.id} update_this={this.update_this.bind(this)}/>
-                        <CommentBox comments={this.state ? this.state.comments: []} update_this={this.update_this.bind(this)}/>
-                    </div>
-                );
-            } else return <Redirect to='/'/>;
-        } else return (<div className="blog-post"></div>);
-    }   
+// -- cookies will replace the need for this
+// -- maybe a user context if you still need access/roles
 
+const verifyToken = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
+
+    const response = await fetch("http://localhost:5000/payload", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({accessToken: localStorage.getItem("accessToken")})
+    });
+    if (!response.ok) throw Error('Failed to fetch token');
+
+    const { status, payload } = await response.json();
+    if (status === 'error') throw Error('Failed to fetch token');
+
+    return payload.access;
 }
+
+// -- this should be in its own file
+
+const BLOG_POST_API = 'http://localhost:5000/api/blog/posts'; // these should be the same URL, use method to differentiate
+const BLOG_POST_API_SCUFFED_DELETE = 'http://localhost:5000/posts';
+
+const blogPostService = () => ({
+    getPost: async (id) => {
+        const response = await fetch(`${BLOG_POST_API}/${id}`);
+        if (!response.ok) throw Error(`Failed to fetch blog post [${response.status}]`); // TODO: we should use http status codes to indicate failure here
+        const data = await response.json();
+        const [post, comments, author] = data; // TODO: this should return nicely formatted data from the server
+        return {
+            ...post,
+            author,
+            comments,
+        }
+    },
+    deletePost: async (id) => {
+        const response = await fetch(`${BLOG_POST_API_SCUFFED_DELETE}/${id}`, { 
+            method: 'DELETE', 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, accessToken: localStorage.getItem("accessToken") }) 
+        });
+        if (!response.ok) throw Error(`Failed to delete blog post [${response.status}]`);
+        const data = await response.json(); // use status codes, 200, 403/401, 404, etc to indicate success, authorization, not found here
+        return data.status === 'success'; 
+    },
+    // add a create post function here
+});
+
 
 export default BlogPost;
