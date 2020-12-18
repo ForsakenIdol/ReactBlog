@@ -37,10 +37,10 @@ const remoteCredentials = {
 
 const dockerCredentials = {
   host: process.env.MYSQLDOCKERHOST,
-  user: process.env.MYSQLDIGITALOCEANUSER,
-  password: process.env.MYSQLDIGITALOCEANPWD,
+  user: process.env.LOCALUSER,
+  password: process.env.LOCALPWD,
   database: process.env.MYSQLDB,
-  port: process.env.MYSQLDIGITALOCEANPORT
+  port: process.env.LOCALPORT
 }
 
 // Create the connection to our MySQL database
@@ -50,6 +50,7 @@ const db = mysql.createConnection(dockerCredentials);
 const port = 5000;
 const server = app.listen(port, () => {
   console.log(`Backend server is now live on port ${port}.`);
+  //console.log(dockerCredentials);
   db.connect(function(err) {
     if (err) {
       console.log("There was an error connecting to the database. Error details below.");

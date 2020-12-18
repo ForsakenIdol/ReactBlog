@@ -39,7 +39,12 @@ services:
     image: mysql:8.0.22
     command: --default-authentication-plugin=mysql_native_password
     volumes:
+      # This allows us to initialize a database from a dump on container load.
       - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    ports:
+      - 3307:3306
     restart: always
+    cap_add:
+      - SYS_NICE
     env_file:
       - database/db.env
