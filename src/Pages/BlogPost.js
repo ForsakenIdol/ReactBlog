@@ -23,7 +23,7 @@ class BlogPost extends React.Component {
     }
 
     update_this() {
-        this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
+        this.getBlogPost("http://localhost:5000/api/blog/posts/" + this.props.match.params.id);
         // Redirect on failed access
         if (this.state.status === "error") this.props.history.replace('/');
         else this.forceUpdate();
@@ -60,7 +60,7 @@ class BlogPost extends React.Component {
     }
 
     componentDidMount() {
-        this.getBlogPost("http://localhost:8080/api/blog/posts/" + this.props.match.params.id);
+        this.getBlogPost("http://localhost:5000/api/blog/posts/" + this.props.match.params.id);
         this.props.handleStatus();
         this.verify_token();
     }

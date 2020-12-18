@@ -44,8 +44,8 @@ class BlogHome extends React.Component {
 
     // Setting state in componentDidMount will trigger a re-render, just like it did for my weather app.
     componentDidMount() {
-        // Here we'll fetch the data from our server, which will probably be on something like "localhost:8080", and set state using that data (this.setState()).
-        this.getBlogData("http://localhost:8080/api/blog/posts");
+        // Here we'll fetch the data from our server and set state using that data (this.setState()).
+        this.getBlogData("http://localhost:5000/api/blog/posts");
     }
 
     render() {

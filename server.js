@@ -1,5 +1,7 @@
 /*
-* This server handles authentication and authenticated routes with JSON Web Tokens.
+* The server handles all backend routes. This includes standard routes which pull blog information,
+* as well as authentication and authenticated routes with JSON Web Tokens. It is, essentially, a wrapper
+* for the MySQL database which hosts all the information required.
 */
 
 const mysql = require('mysql');
@@ -11,11 +13,11 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const auth = express();
-auth.use(cors());
-auth.use(bodyParser.urlencoded({extended: false}));
-auth.use(bodyParser.json());
-dotenv.config({ path: path.resolve(__dirname + "/../config.env") }); // Load environmental variables
+const app = express();
+app.use(cors());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+dotenv.config({ path: path.resolve(__dirname + "/config.env") }); // Load environmental variables
 
 const localCredentials = {
   host: process.env.LOCALHOST,
@@ -38,8 +40,8 @@ const db = mysql.createConnection(localCredentials);
 
 /* Setting up the port for our application */
 const port = 5000;
-const server = auth.listen(port, () => {
-  console.log(`Authentication server is now live on port ${port}.`);
+const server = app.listen(port, () => {
+  console.log(`Backend server is now live on port ${port}.`);
   db.connect(function(err) {
     if (err) console.log(err);
     else {
@@ -61,9 +63,43 @@ let generateRefreshToken = payload => {
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
 }
 
+/* Standard Paths */
+
+app.get('/api/blog/posts', (req, res) => {
+  db.query("SELECT * FROM post ORDER BY id ASC;", (err, result, fields) => {
+    if (err) {
+      console.log("Error!");
+      res.send(err);
+    } else res.send(result);
+  });
+});
+
+app.get('/api/blog/posts/:id', (req, res) => {
+  db.query("SELECT * FROM post WHERE id = ?;", [req.params.id], (err, post, fields) => {
+    if (err) {
+      console.log("Error!");
+      res.send(err);
+    } else if (post.length > 0) {
+      db.query("SELECT * FROM comment WHERE post_id = ?;", [req.params.id], (err, comments, fields) => {
+        if (err) {
+          console.log("Error!");
+          res.send(err);
+        } else {
+          db.query("SELECT username FROM user WHERE id = ?;", [post[0].user_id], (err, user, fields) => {
+            if (err) {
+              console.log("Error!");
+              res.send(err);
+            } else res.send([post[0], comments, user[0]]);
+          });
+        }
+      });
+    } else res.send({status: "error", reason: "no_post"});
+  });
+});
+
 /* Authentication Paths */
 
-auth.post('/login', (req, res) => {
+app.post('/login', (req, res) => {
   if (!req.body.username) return res.send({status: "error", missing: "username"});
   if (!req.body.password) return res.send({status: "error", missing: "password"});
   // Search for the user in the database
@@ -101,7 +137,7 @@ auth.post('/login', (req, res) => {
 });
 
 // Checks and validates the refresh token before generating a new access token for the user.
-auth.post('/refresh', (req, res) => {
+app.post('/refresh', (req, res) => {
   const refreshToken = req.body ? req.body.token : null;
   if (refreshToken == null) return res.send({error: "notoken"});
   // Search for the token in our database
@@ -123,7 +159,7 @@ auth.post('/refresh', (req, res) => {
   });
 });
 
-auth.delete('/logout', (req, res) => {
+app.delete('/logout', (req, res) => {
   jwt.verify(req.body.token, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
     // The error is called if the token is not valid.
     if (err) return res.send({status: "error", error: err});
@@ -137,7 +173,7 @@ auth.delete('/logout', (req, res) => {
   });
 });
 
-auth.post('/register', (req, res) => {
+app.post('/register', (req, res) => {
   // Check if username has been taken
   db.query("SELECT * FROM user WHERE username=?;", [req.body.username], (err, result, fields) => {
     if (err) return res.send({status: "error", error: err});
@@ -166,7 +202,7 @@ auth.post('/register', (req, res) => {
 
 // Accepts both an access and a refresh token. Checks the validity of both tokens,
 // returns {access: status, refresh: status} where "status" is either "valid" or an error message.
-auth.post('/verify', (req, res) => {
+app.post('/verify', (req, res) => {
   let access;
   if (req.body.accessToken) {
     try {
@@ -185,7 +221,7 @@ auth.post('/verify', (req, res) => {
 });
 
 // Given an access token, verifies the token and returns as many stats as possible regarding the user.
-auth.post('/statistics', (req, res) => {
+app.post('/statistics', (req, res) => {
   if (req.body.accessToken) jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     if (err) return res.send({result: "error", reason: "invalid_access_token"});
     // Get number of posts
@@ -209,7 +245,7 @@ auth.post('/statistics', (req, res) => {
 });
 
 // Given a token, verifies and returns the payload if valid.
-auth.post('/payload', (req, res) => {
+app.post('/payload', (req, res) => {
   let secret = '';
   let token = '';
   if (req.body.accessToken) {token = req.body.accessToken; secret = process.env.ACCESS_TOKEN_SECRET;}
@@ -223,7 +259,7 @@ auth.post('/payload', (req, res) => {
 });
 
 /* This route handles posting of the comment form. */
-auth.post('/comment', (req, res) => {
+app.post('/comment', (req, res) => {
   if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
   if (!req.body.comment) return res.send({status: "error", reason: "no_comment"});
   if (!req.body.post_id) return res.send({status: "error", reason: "no_post_id"});
@@ -238,7 +274,7 @@ auth.post('/comment', (req, res) => {
 });
 
 /* This route handles deleting of comments. The current access token needs to be passed with the comment ID. */
-auth.delete('/comment/:id', (req, res) => {
+app.delete('/comment/:id', (req, res) => {
   console.log("Comment delete was requested.");
   if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
   jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
@@ -252,7 +288,7 @@ auth.delete('/comment/:id', (req, res) => {
 })
 
 /* This route handles deleting of posts. The current access token also needs to be passed with the post ID. */
-auth.delete('/post/:id', (req, res) => {
+app.delete('/post/:id', (req, res) => {
   console.log(`Requested delete of post with ID ${req.params.id}!`);
   if (!req.body.accessToken) return res.send({status: "error", reason: "no_token"});
   jwt.verify(req.body.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
@@ -266,7 +302,7 @@ auth.delete('/post/:id', (req, res) => {
 });
 
 // This route handles submission of the blog add post form.
-auth.post('/post', (req, res) => {
+app.post('/post', (req, res) => {
   if (req.body && req.body !== {}) {
     if (!req.body.title) return res.send({status: "error", reason: "no_title"});
     if (!req.body.image_link) return res.send({status: "error", reason: "no_image_link"});

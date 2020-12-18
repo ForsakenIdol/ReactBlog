@@ -18,13 +18,4 @@ I've made a concerted effort to modularize as many components as possible, and w
 
 ## TODO
 
-This TODO list staggers items as I feel they can be done together.
-
 *Nothing currently!*
-
-**Comment Form Functionality**
-1. When the comment form submission button is pressed, we attempt to grab the refresh token from local storage.
-2. If the current user is not logged in, we flash a message under the comment box: "You must be logged in to post comments!"
-3. If the current user is logged in, the form is posted to the comment route with the access token of the currently logged-in user and the ID of the corresponding post.
-4. The comment route verifies the provided access token. If the token is invalid, the route sends a status error back to the frontend.
-5. If the token is valid, the route stores the comment and the corresponding user and post information in the database's `comment` table.
