@@ -1,11 +1,25 @@
+### This is the docker-compose development file.
+
 version: '3.8'
 
 services:
-  dev:
+  frontend:
     build:
-      context: .
-      target: dev
+      context: ./frontend
     volumes:
-      - ./:/usr/src/app
+      - ./frontend:/usr/src/app
     ports:
       - 3000:3000
+    command: ["npm", "start"]
+    depends_on: 
+      - server
+  server:
+    build:
+      context: ./server
+    # volumes:
+    #   - ./server:/usr/src/app
+    ports:  
+      - 5000:5000
+    command: ["nodemon", "server.js"]
+    env_file:
+      - server/config.env

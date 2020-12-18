@@ -1,4 +1,4 @@
 .git
-node_modules
+node_modules/
 # Does this interfere with the build context?
-build
+build/
