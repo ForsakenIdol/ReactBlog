@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-dotenv.config({ path: path.resolve(__dirname + "/config.env") }); // Load environmental variables
+//dotenv.config({ path: path.resolve(__dirname + "/config.env") }); // Load environmental variables
 
 const localCredentials = {
   host: process.env.LOCALHOST,
@@ -35,8 +35,16 @@ const remoteCredentials = {
   port: process.env.MYSQLDIGITALOCEANPORT
 }
 
+const dockerCredentials = {
+  host: process.env.MYSQLDOCKERHOST,
+  user: process.env.MYSQLDIGITALOCEANUSER,
+  password: process.env.MYSQLDIGITALOCEANPWD,
+  database: process.env.MYSQLDB,
+  port: process.env.MYSQLDIGITALOCEANPORT
+}
+
 // Create the connection to our MySQL database
-const db = mysql.createConnection(localCredentials);
+const db = mysql.createConnection(dockerCredentials);
 
 /* Setting up the port for our application */
 const port = 5000;

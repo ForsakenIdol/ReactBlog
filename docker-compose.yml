@@ -1,9 +1,11 @@
 ### This is the docker-compose development file.
+### So far, the frontend and the database both load properly, but the server can't connect to the database.
 
 version: '3.8'
 
 services:
   frontend:
+    container_name: blog_frontend
     build:
       context: ./frontend
     volumes:
@@ -14,12 +16,30 @@ services:
     depends_on: 
       - server
   server:
+    container_name: blog_server
     build:
       context: ./server
     # volumes:
     #   - ./server:/usr/src/app
     ports:  
       - 5000:5000
-    command: ["nodemon", "server.js"]
+    # This script executes with respect to where it is in the container filesystem.
+    # ["./wait-for.sh", "db:3306", "nodemon", "server.js"]
+    command: >
+      sh -c "
+        ./wait-for.sh db:3306 &&
+        nodemon server.js
+      "
+    depends_on:
+      - db
     env_file:
       - server/config.env
+  db:
+    container_name: blog_db
+    image: mysql:8.0.22
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    restart: always
+    env_file:
+      - database/db.env
