@@ -8,8 +8,8 @@ services:
     container_name: blog_frontend
     build:
       context: ./frontend
-    volumes:
-      - ./frontend:/usr/src/app
+    # volumes:
+    #   - ./frontend:/usr/src/app
     ports:
       - 3000:3000
     command: ["npm", "start"]
@@ -24,12 +24,10 @@ services:
     ports:  
       - 5000:5000
     # This script executes with respect to where it is in the container filesystem.
-    # ["./wait-for.sh", "db:3306", "nodemon", "server.js"]
+    ### command: >
+    ###   sh -c "./wait-for.sh db:3306 && nodemon server.js"
     command: >
-      sh -c "
-        ./wait-for.sh db:3306 &&
-        nodemon server.js
-      "
+      sh -c "sleep 20 && nodemon server.js"
     depends_on:
       - db
     env_file:
