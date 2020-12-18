@@ -23,11 +23,12 @@ services:
     #   - ./server:/usr/src/app
     ports:  
       - 5000:5000
+    restart: always
     # This script executes with respect to where it is in the container filesystem.
     ### command: >
-    ###   sh -c "./wait-for.sh db:3306 && nodemon server.js"
+    ###   sh -c "./wait-for.sh db:3306 && node server.js"
     command: >
-      sh -c "sleep 20 && nodemon server.js"
+      sh -c "node server.js"
     depends_on:
       - db
     env_file:
@@ -44,5 +45,7 @@ services:
     restart: always
     cap_add:
       - SYS_NICE
+    security_opt: 
+      - seccomp:unconfined
     env_file:
       - database/db.env

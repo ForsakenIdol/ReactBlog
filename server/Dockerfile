@@ -25,5 +25,5 @@
 
 FROM node:12.18.3-alpine AS backend
 WORKDIR /usr/src/app
-COPY package.json server.js wait-for.sh ./
+COPY package.json server.js ./
 RUN npm install && npm audit fix && npm install -g nodemon
