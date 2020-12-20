@@ -26,3 +26,6 @@ yarn-error.log*
 
 *.env
 *.sql
+
+# Ignoring the website, since it has its own repository
+my-website/

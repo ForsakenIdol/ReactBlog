@@ -53,8 +53,8 @@ const server = app.listen(port, () => {
   //console.log(dockerCredentials);
   db.connect(function(err) {
     if (err) {
-      console.log("There was an error connecting to the database. Error details below.");
       console.log(err);
+      throw new Error("There was an error connecting to the database. Error details above.");
     }
     else {
       console.log("Connected to MYSQL!");
