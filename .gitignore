@@ -28,4 +28,4 @@ yarn-error.log*
 *.sql
 
 # Ignoring the website, since it has its own repository
-my-website/
+my_website/

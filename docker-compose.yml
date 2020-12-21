@@ -1,38 +1,54 @@
 ### This is the docker-compose development file.
-### So far, the frontend and the database both load properly, but the server can't connect to the database.
 
 version: '3.8'
 
 services:
+  website:
+    container_name: main_website
+    build:
+      context: ./my_website
+    volumes:
+      - ./my_website:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3001:3001
+    restart: always
+    command: ["npm", "run", "dev"]
+    depends_on:
+      - db
+    env_file: 
+      - my_website/config.env
+
   frontend:
     container_name: blog_frontend
     build:
       context: ./frontend
-    # volumes:
-    #   - ./frontend:/usr/src/app
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - 3000:3000
     command: ["npm", "start"]
     depends_on: 
       - server
+
   server:
     container_name: blog_server
     build:
       context: ./server
-    # volumes:
-    #   - ./server:/usr/src/app
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
     ports:  
       - 5000:5000
     restart: always
-    # This script executes with respect to where it is in the container filesystem.
-    ### command: >
-    ###   sh -c "./wait-for.sh db:3306 && node server.js"
     command: >
-      sh -c "node server.js"
+      sh -c "nodemon server.js"
     depends_on:
       - db
     env_file:
       - server/config.env
+
   db:
     container_name: blog_db
     image: mysql:8.0.22
